@@ -9,16 +9,20 @@
         <el-table-column
           prop="id"
           label="id"
+          align="center"
           width="80"></el-table-column>
         <el-table-column
           prop="account"
-          label="账号"></el-table-column>
+          label="账号"
+          align="center"></el-table-column>
         <el-table-column
           prop="ip"
-          label="ip"></el-table-column>
+          label="ip"
+          align="center"></el-table-column>
         <el-table-column
           prop="location"
-          label="归属地">
+          label="归属地"
+          align="center">
           <template #default="scope">
             <div v-if="scope.row.location">
               {{ scope.row.location.province }}-{{ scope.row.location.city }}
@@ -31,14 +35,16 @@
         width="80"></el-table-column> -->
         <el-table-column
           prop="create_time"
-          label="创建时间">
+          label="创建时间"
+          align="center">
           <template #default="scope">
             <span v-time="scope.row.create_time"></span>
           </template>
         </el-table-column>
         <el-table-column
           prop="last_login_time"
-          label="最后登录时间">
+          label="最后登录时间"
+          align="center">
           <template #default="scope">
             <span v-time="scope.row.last_login_time"></span>
           </template>
@@ -46,6 +52,7 @@
         <el-table-column
           fixed="right"
           label="操作"
+          align="center"
           min-width="120">
           <template #default="scope">
             <el-switch

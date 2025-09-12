@@ -3,6 +3,7 @@ import webInfo from '/src/assets/icons/data.png'
 import visitor from '/src/assets/icons/访客管理.png'
 import buried from '/src/assets/icons/数据埋点.png'
 import log from '/src/assets/icons/监控.png'
+import error from '/src/assets/icons/task-error.png'
 import workplace from '/src/assets/icons/控制台.png'
 import user from '/src/assets/icons/管理员.png'
 import role from '/src/assets/icons/角色3.png'
@@ -43,9 +44,18 @@ export const asyncRoutes = [
         },
       },
       {
-        name: '监控日志',
+        name: '性能分析',
+        path: '/data/performance',
+        component: () => import('@/views/performance.vue'),
+        meta: {
+          hidden: false,
+          icon: error
+        },
+      },
+      {
+        name: '错误日志',
         path: '/data/log',
-        component: () => import('@/views/log.vue'),
+        component: () => import('@/views/errorLog.vue'),
         meta: {
           hidden: false,
           icon: log
@@ -100,7 +110,6 @@ export const asyncRoutes = [
       },
     ]
   },
-
   {
     name: '前台设置',
     path: '/setting',

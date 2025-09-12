@@ -1,5 +1,5 @@
 <template>
-  <div>监控日志</div>
+  <div>性能分析</div>
 </template>
 
 <script setup></script>
