@@ -8,11 +8,18 @@
           alt="" />
         <div class="name">时雨博客后台</div>
       </div>
-      <el-menu popper-class="menu">
+      <!-- <el-menu popper-class="menu">
         <MenuList
           :menuList="userStore.menuList"
           router="true"></MenuList>
-      </el-menu>
+      </el-menu> -->
+      <SidebarProvider>
+        <AppSidebar />
+        <main>
+          <SidebarTrigger />
+          <RouterView />
+        </main>
+      </SidebarProvider>
     </div>
     <div class="right">
       <!-- 右上 -->
@@ -50,6 +57,10 @@
 import { onMounted, ref } from "vue";
 import MenuList from "@/components/menuList.vue";
 import { useUserStore } from "../store/user";
+
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import AppSidebar from "@/components/Appsidebar.vue";
+
 const userStore = useUserStore();
 const user = ref(
   userStore.name || JSON.parse(localStorage.getItem("user")).name
