@@ -3,7 +3,6 @@ import dts from "vite-plugin-dts";
 import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
-// const target = 'http://182.92.105.35:3000'
 const target = "http://127.0.0.1:3000";
 export default defineConfig({
   plugins: [
