@@ -13,7 +13,8 @@ import AppTabSet from "@/layout/basic/AppTabSet.vue";
   <div class="flex">
     <SidebarProvider>
       <AppSidebar />
-      <main class="w-full">
+      <Separator orientation="vertical" />
+      <main class="flex-auto">
         <div class="flex items-center !px-5">
           <SidebarTrigger />
           <AppBreadcrumb />
@@ -22,7 +23,11 @@ import AppTabSet from "@/layout/basic/AppTabSet.vue";
         <Separator />
         <AppTabSet />
         <Separator />
-        <RouterView />
+        <router-view v-slot="{ Component }">
+          <transition name="slide">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </main>
     </SidebarProvider>
   </div>

@@ -123,9 +123,39 @@
   }
 }
 
-/* 以下为自己封装的样式 */
+/* 以下为封装的tailwindCSS样式 */
 @layer components {
 }
 .btn-primary {
   /* @apply bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80 disabled:opacity-50 disabled:pointer-events-none font-medium py-2 px-4 rounded-md transition; */
+}
+
+/* 以下为路由过渡动效 */
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* 进入时的起始状态：从右侧100%位置进入，完全透明 */
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(-2%);
+}
+
+/* 进入后的结束状态：回到正常位置，完全不透明 */
+.slide-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 离开时的起始状态：保持当前位置和透明度 */
+.slide-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* 离开时的结束状态：向左移出屏幕，完全透明 */
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(2%);
+  display: none;
 }

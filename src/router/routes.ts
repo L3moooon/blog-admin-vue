@@ -15,6 +15,8 @@ import {
   Database,
   Settings2,
   Settings,
+  LaptopMinimalCheck,
+  SquareUserRound,
 } from "lucide-vue-next";
 
 export const asyncRoutes: RouteRecordRaw[] = [
@@ -81,7 +83,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/administrator.vue"),
         meta: {
           hidden: false,
-          icon: LayoutDashboard,
+          icon: SquareUserRound,
         },
       },
       {
@@ -179,7 +181,7 @@ export const publicRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/overview.vue"),
         meta: {
           hidden: false,
-          icon: LayoutDashboard,
+          icon: LaptopMinimalCheck,
         },
       },
     ],

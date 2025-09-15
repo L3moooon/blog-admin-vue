@@ -26,7 +26,7 @@ const handleLogout = () => {
         class="size-8 !mr-3 !ml-auto"
         src="/src/assets/personal.png"
         alt="" />
-      <span>{{ user }}</span>
+      <!-- <span>{{ user }}</span> -->
     </HoverCardTrigger>
     <HoverCardContent>
       <div class="!w-fit">
