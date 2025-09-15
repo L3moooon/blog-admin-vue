@@ -11,13 +11,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+// import type { SidebarProps } from "@/components/ui/sidebar";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
-import { useUserStore } from "../store/user";
+import { useUserStore } from "../../store/user";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();

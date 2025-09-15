@@ -22,7 +22,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     name: "网站数据",
     path: "/data",
     redirect: "/data/visitor",
-    component: () => import("@/layout/home.vue"),
+    component: () => import("@/layout/basic/index.vue"),
     meta: {
       hidden: false,
       icon: Database,
@@ -69,7 +69,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
   {
     name: "控制台",
     path: "/workplace",
-    component: () => import("@/layout/home.vue"),
+    component: () => import("@/layout/basic/index.vue"),
     meta: {
       hidden: false,
       icon: Settings2,
@@ -117,7 +117,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     name: "前台设置",
     path: "/setting",
     redirect: "/setting/theme",
-    component: () => import("@/layout/home.vue"),
+    component: () => import("@/layout/basic/index.vue"),
     meta: {
       hidden: false,
       icon: Settings,
@@ -158,7 +158,7 @@ export const publicRoutes: RouteRecordRaw[] = [
     name: "概览",
     path: "/",
     redirect: "overview",
-    component: () => import("@/layout/home.vue"),
+    component: () => import("@/layout/basic/index.vue"),
     meta: {
       hidden: false,
       icon: LayoutDashboard,
