@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import "./styles/reset.css";
+// import "./styles/reset.css";
 import "./styles/index.css";
 import "element-plus/dist/index.css";
 </script>

@@ -255,8 +255,8 @@ import {
   addTag,
   delTag,
 } from "@/api/article";
-import EditArticle from "../components/editArticle.vue";
-import EditArticleByPlugin from "../components/editArticleByPlugin.vue";
+import EditArticle from "./articleComponent/editArticle.vue";
+import EditArticleByPlugin from "./articleComponent/editArticleByPlugin.vue";
 import { ElMessage } from "element-plus";
 import { Search } from "@element-plus/icons-vue";
 import { throttle } from "lodash-es";

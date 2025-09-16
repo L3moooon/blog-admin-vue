@@ -95,7 +95,7 @@
 
 <script setup>
 import { onMounted, ref, reactive } from "vue";
-import { addOrEditArticle } from "../api/article";
+import { addOrEditArticle } from "../../../api/article";
 import { upload } from "/src/api/public";
 import { ElMessage } from "element-plus";
 const props = defineProps(["tagList", "content"]);

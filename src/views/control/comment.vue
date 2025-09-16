@@ -70,7 +70,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { getAllComments, delComments } from "../api/comment";
+import { getAllComments, delComments } from "../../api/comment";
 import { ElMessage } from "element-plus";
 const commentData = ref();
 //获取评论列表

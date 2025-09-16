@@ -100,7 +100,7 @@
 
 <script setup>
 import { onMounted, ref, reactive, watch } from "vue";
-import { addOrEditArticle } from "../api/article";
+import { addOrEditArticle } from "../../../api/article";
 import { upload } from "/src/api/public";
 import { ElMessage, ElLoading } from "element-plus";
 import { QuillEditor } from "@vueup/vue-quill";

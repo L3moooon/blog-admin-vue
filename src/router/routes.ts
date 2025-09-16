@@ -33,7 +33,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "访客列表",
         path: "/data/visitor",
-        component: () => import("@/views/visitor.vue"),
+        component: () => import("@/views/data/visitor.vue"),
         meta: {
           hidden: false,
           icon: IdCard,
@@ -42,7 +42,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "埋点列表",
         path: "/data/buried",
-        component: () => import("@/views/buried.vue"),
+        component: () => import("@/views/data/buried.vue"),
         meta: {
           hidden: false,
           icon: Crosshair,
@@ -51,7 +51,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "性能分析",
         path: "/data/performance",
-        component: () => import("@/views/performance.vue"),
+        component: () => import("@/views/data/performance.vue"),
         meta: {
           hidden: false,
           icon: Rocket,
@@ -60,7 +60,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "错误日志",
         path: "/data/log",
-        component: () => import("@/views/errorLog.vue"),
+        component: () => import("@/views/data/errorLog.vue"),
         meta: {
           hidden: false,
           icon: Cctv,
@@ -70,7 +70,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
   },
   {
     name: "控制台",
-    path: "/workplace",
+    path: "/control",
     component: () => import("@/layout/basic/index.vue"),
     meta: {
       hidden: false,
@@ -79,8 +79,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
     children: [
       {
         name: "用户管理",
-        path: "/workplace/user",
-        component: () => import("@/views/administrator.vue"),
+        path: "/control/user",
+        component: () => import("@/views/control/administrator.vue"),
         meta: {
           hidden: false,
           icon: SquareUserRound,
@@ -88,8 +88,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
       },
       {
         name: "角色管理",
-        path: "/workplace/role",
-        component: () => import("@/views/role.vue"),
+        path: "/control/role",
+        component: () => import("@/views/control/role.vue"),
         meta: {
           hidden: false,
           icon: KeyRound,
@@ -97,8 +97,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
       },
       {
         name: "文章管理",
-        path: "/workplace/article",
-        component: () => import("@/views/article.vue"),
+        path: "/control/article",
+        component: () => import("@/views/control/article.vue"),
         meta: {
           hidden: false,
           icon: NotebookText,
@@ -106,8 +106,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
       },
       {
         name: "评论管理",
-        path: "/workplace/comment",
-        component: () => import("@/views/comment.vue"),
+        path: "/control/comment",
+        component: () => import("@/views/control/comment.vue"),
         meta: {
           hidden: false,
           icon: MessageSquareQuote,
@@ -128,7 +128,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "主题设置",
         path: "/setting/theme",
-        component: () => import("@/views/theme.vue"),
+        component: () => import("@/views/setting/theme.vue"),
         meta: {
           hidden: false,
           icon: Castle,
@@ -137,7 +137,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "音乐盒设置",
         path: "/setting/music",
-        component: () => import("@/views/music.vue"),
+        component: () => import("@/views/setting/music.vue"),
         meta: {
           hidden: false,
           icon: Music4,
@@ -146,7 +146,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "友链设置",
         path: "/setting/friendship",
-        component: () => import("@/views/friendship.vue"),
+        component: () => import("@/views/setting/friendship.vue"),
         meta: {
           hidden: false,
           icon: Handshake,
@@ -159,7 +159,7 @@ export const publicRoutes: RouteRecordRaw[] = [
   {
     name: "概览",
     path: "/",
-    redirect: "overview",
+    redirect: "analysis",
     component: () => import("@/layout/basic/index.vue"),
     meta: {
       hidden: false,
@@ -168,8 +168,8 @@ export const publicRoutes: RouteRecordRaw[] = [
     children: [
       {
         name: "分析页",
-        path: "/overview",
-        component: () => import("@/views/overview.vue"),
+        path: "/analysis",
+        component: () => import("@/views/overview/analysis.vue"),
         meta: {
           hidden: false,
           icon: ChartLine,
@@ -178,7 +178,7 @@ export const publicRoutes: RouteRecordRaw[] = [
       {
         name: "工作台",
         path: "/workplace",
-        component: () => import("@/views/overview.vue"),
+        component: () => import("@/views/overview/workplace.vue"),
         meta: {
           hidden: false,
           icon: LaptopMinimalCheck,
