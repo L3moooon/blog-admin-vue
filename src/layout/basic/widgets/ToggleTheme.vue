@@ -27,10 +27,10 @@ onMounted(() => {
       @click="toggleTheme">
       <Sun
         v-if="theme === 'dark'"
-        class="size-8" />
+        class="size-6" />
       <Moon
         v-else
-        class="size-8" />
+        class="size-6" />
     </div>
   </div>
 </template>

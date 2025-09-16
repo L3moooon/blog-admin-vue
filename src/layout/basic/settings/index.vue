@@ -62,8 +62,8 @@ import { Settings } from "lucide-vue-next";
         </SheetDescription>
         <Separator />
         <div>
-          <Button>Button</Button>
-          <Button>Button</Button>
+          <Button>重置</Button>
+          <Button>保存</Button>
         </div>
       </SheetHeader>
     </SheetContent>
