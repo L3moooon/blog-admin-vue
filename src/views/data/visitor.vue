@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import MyTable from "@/components/table/MyTable.vue";
 import {
   Pagination,
@@ -53,7 +53,7 @@ const customColumns = [
     label: "操作",
   },
 ];
-const visitedCountColor = (value) => {
+const visitedCountColor = (value: number) => {
   if (value < 3) {
     return "bg-green-600/50";
   } else if (value >= 3 && value < 5) {
@@ -71,13 +71,13 @@ onMounted(() => {
   getVisitorList();
 });
 
-const handleEdit = (row) => {
-  console.log("编辑:", row);
-};
+// const handleEdit = (row) => {
+//   console.log("编辑:", row);
+// };
 
-const handleDelete = (row) => {
-  console.log("删除:", row);
-};
+// const handleDelete = (row) => {
+//   console.log("删除:", row);
+// };
 </script>
 <template>
   <div class="!p-5">

@@ -13,7 +13,6 @@ import AppTabSet from "@/layout/basic/AppTabSet.vue";
   <div class="flex">
     <SidebarProvider>
       <AppSidebar />
-      <!-- <Separator orientation="vertical" /> -->
       <main class="flex-auto">
         <div class="flex items-center !px-5">
           <SidebarTrigger />

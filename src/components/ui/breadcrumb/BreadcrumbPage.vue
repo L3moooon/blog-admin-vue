@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { HTMLAttributes } from "vue"
-import { cn } from "@/lib/utils"
+import type { HTMLAttributes } from "vue";
+import { cn } from "@/utils/mergeTwClass";
 
 const props = defineProps<{
-  class?: HTMLAttributes["class"]
-}>()
+  class?: HTMLAttributes["class"];
+}>();
 </script>
 
 <template>
@@ -13,8 +13,7 @@ const props = defineProps<{
     role="link"
     aria-disabled="true"
     aria-current="page"
-    :class="cn('text-foreground font-normal', props.class)"
-  >
+    :class="cn('text-foreground font-normal', props.class)">
     <slot />
   </span>
 </template>

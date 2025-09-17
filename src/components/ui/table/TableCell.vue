@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
-import { cn } from "@/lib/utils"
+import type { HTMLAttributes } from "vue";
+import { cn } from "@/utils/mergeTwClass";
 
 const props = defineProps<{
-  class?: HTMLAttributes["class"]
-}>()
+  class?: HTMLAttributes["class"];
+}>();
 </script>
 
 <template>
@@ -13,10 +13,9 @@ const props = defineProps<{
     :class="
       cn(
         'p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-        props.class,
+        props.class
       )
-    "
-  >
+    ">
     <slot />
   </td>
 </template>

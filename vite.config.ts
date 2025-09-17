@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve("./src"), //相对别名配置，使用@代替src
+      "@": path.resolve("./src"),
     },
   },
   server: {
