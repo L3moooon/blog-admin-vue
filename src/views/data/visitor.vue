@@ -48,10 +48,6 @@ const customColumns = [
     prop: "visited_count",
     label: "访问次数",
   },
-  {
-    prop: "actions",
-    label: "操作",
-  },
 ];
 const visitedCountColor = (value: number) => {
   if (value < 3) {
@@ -70,21 +66,14 @@ const getVisitorList = async () => {
 onMounted(() => {
   getVisitorList();
 });
-
-// const handleEdit = (row) => {
-//   console.log("编辑:", row);
-// };
-
-// const handleDelete = (row) => {
-//   console.log("删除:", row);
-// };
 </script>
 <template>
   <div class="!p-5">
     <MyTable
       :data="userData"
       :columns="customColumns"
-      align-center>
+      align-center
+      show-overflow-tooltip>
       <template #cell-location="{ row }">
         <div v-if="row.address">
           <span v-if="row.address.country == '中国'">
@@ -96,7 +85,7 @@ onMounted(() => {
         </div>
       </template>
       <template #cell-create_time="{ value }">
-        <span v-time="value"> {{ value }}岁 </span>
+        <span v-time="value"> {{ value }} </span>
       </template>
       <template #cell-last_login_time="{ value }">
         <span v-time="value"> </span>
@@ -104,35 +93,13 @@ onMounted(() => {
       <template #cell-visited_count="{ value }">
         <div
           :class="[
-            visitedCountColor(value),
+            visitedCountColor(value as number),
             'w-10',
             'rounded-md',
             'flex',
             'justify-center',
           ]">
           {{ value }}
-        </div>
-      </template>
-      <template #cell-actions="{ row }">
-        <div class="flex space-x-2">
-          <button
-            class="text-blue-600 hover:text-blue-800"
-            @click="handleEdit(row)">
-            编辑
-          </button>
-          <button
-            class="text-red-600 hover:text-red-800"
-            @click="handleDelete(row)">
-            删除
-          </button>
-        </div>
-      </template>
-
-      <!-- 自定义空状态 -->
-      <template #empty>
-        <div class="flex flex-col items-center">
-          <p class="text-muted-foreground">没有找到用户数据</p>
-          <button class="mt-2 text-sm text-primary">添加新用户</button>
         </div>
       </template>
     </MyTable>

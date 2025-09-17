@@ -40,18 +40,17 @@ const handlerJump = (path: string) => {
     </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
-        <!-- <SidebarGroupLabel> </SidebarGroupLabel> -->
         <SidebarGroupContent>
           <template v-for="item in userStore.menuList">
             <Collapsible
               v-show="!item.meta.hidden"
               defaultOpen
               class="group/collapsible">
-              <SidebarGroup>
+              <SidebarGroup class="pt-0 px-0">
                 <SidebarGroupLabel asChild>
                   <CollapsibleTrigger>
                     <SidebarMenuButton
-                      class="!pl-2 flex items-center h-8 text-18 cursor-pointer"
+                      class="flex items-center h-8 text-18 cursor-pointer"
                       asChild>
                       <template>
                         <component :is="item.meta.icon" />

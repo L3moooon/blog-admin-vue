@@ -36,6 +36,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/external/, ""), // 重写路径为空
       },
+      //本地开发环境显示oss图片
+      "/images": {
+        target: "https://oss.willisblog.cn",
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   optimizeDeps: {

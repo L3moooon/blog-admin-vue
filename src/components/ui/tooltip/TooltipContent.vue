@@ -8,7 +8,7 @@ import {
   TooltipPortal,
   useForwardPropsEmits,
 } from "reka-ui";
-import { cn } from "@/utils/mergeTwClass";
+import { cn } from "@/lib/utils";
 
 defineOptions({
   inheritAttrs: false,

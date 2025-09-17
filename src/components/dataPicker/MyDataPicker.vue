@@ -10,7 +10,7 @@ import { Calendar, ChevronLeft, ChevronRight } from "lucide-vue-next";
 import { RangeCalendarRoot, useDateFormatter } from "reka-ui";
 import { createMonth, toDate } from "reka-ui/date";
 import { ref, watch } from "vue";
-import { cn } from "@/utils/mergeTwClass";
+import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Popover,
@@ -98,7 +98,7 @@ watch(secondMonthPlaceholder, (_secondMonthPlaceholder) => {
         variant="outline"
         :class="
           cn(
-            'w-[280px] justify-start text-left font-normal',
+            'w-[280px] justify-start text-left font-normal cursor-pointer',
             !value && 'text-muted-foreground'
           )
         ">
