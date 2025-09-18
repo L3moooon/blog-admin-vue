@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   server: {
-    open: false,
+    open: true,
     headers: {
       "Cross-Origin-Opener-Policy": "cross-origin",
     },

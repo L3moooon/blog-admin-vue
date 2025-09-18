@@ -188,7 +188,7 @@ export const publicRoutes: RouteRecordRaw[] = [
   },
   {
     path: "/login",
-    component: () => import("@/layout/login.vue"),
+    component: () => import("@/layout/login/index.vue"),
     meta: {
       hidden: true,
     },

@@ -44,7 +44,6 @@ const columns = [
     prop: "id",
     label: "id",
     width: 60,
-    align: "center",
   },
   {
     prop: "title",
@@ -54,7 +53,6 @@ const columns = [
     prop: "cover_img",
     label: "封面",
     width: 120,
-    align: "center",
   },
   {
     prop: "abstract",
@@ -79,21 +77,18 @@ const columns = [
     label: "访问量",
     sortable: true,
     width: 100,
-    align: "center",
   },
   {
     prop: "like",
     label: "点赞量",
     sortable: true,
     width: 100,
-    align: "center",
   },
   {
     prop: "comment_count",
     label: "评论量",
     sortable: true,
     width: 100,
-    align: "center",
   },
   {
     prop: "actions",
@@ -129,11 +124,12 @@ const back = () => {
   //TODO 保留草稿功能
   showArticleDialog.value = false;
 };
+const rowInfo = ref(null);
+
 //编辑文章
-const editArticle = (row) => {
-  EditOrAdd.value = 0;
-  content.value = row;
+const handleEditArticle = (row) => {
   showArticleDialog.value = true;
+  rowInfo.value = row;
 };
 //编辑完成后更新文章
 const updateArticleDialog = (data) => {
@@ -225,12 +221,8 @@ onMounted(() => {
   <div class="px-5">
     <div class="my-2 flex gap-2">
       <EditDialog
-        :visible.sync="showArticleDialog"
-        :EditOrAdd="EditOrAdd"
-        :content="content"
-        @back="back"
-        @updateArticleDialog="updateArticleDialog"
-        @clearData="clearData" />
+        v-model:showArticleDialog="showArticleDialog"
+        :rowInfo="rowInfo" />
       <Button
         variant="outline"
         class="cursor-pointer"
@@ -247,9 +239,9 @@ onMounted(() => {
       <template #cell-cover_img="{ value }">
         <div v-if="value">
           <img
-            :src="value as string"
-            alt=""
-            class="w-20 h-12 object-cover rounded" />
+            class="w-20 h-12 object-cover rounded"
+            :src="value"
+            alt="" />
         </div>
         <div v-else>暂无封面</div>
       </template>
@@ -262,7 +254,7 @@ onMounted(() => {
             v-for="(item, index) in value"
             :key="index"
             class="bg-cyan-300/50 rounded-sm px-2">
-            {{ item.name }}
+            {{ tagList.find((tag) => tag.id === item)?.tag_name || "未知标签" }}
           </div>
         </div>
       </template>
@@ -289,7 +281,7 @@ onMounted(() => {
           </Switch>
           <button
             class="text-blue-600 hover:text-blue-800 cursor-pointer"
-            @click="editArticle(row)">
+            @click="handleEditArticle(row)">
             编辑
           </button>
           <button
