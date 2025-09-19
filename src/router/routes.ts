@@ -98,7 +98,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "文章管理",
         path: "/control/article",
-        component: () => import("@/views/control/article.vue"),
+        component: () => import("@/views/control/article/index.vue"),
         meta: {
           hidden: false,
           icon: NotebookText,

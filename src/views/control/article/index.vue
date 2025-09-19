@@ -8,33 +8,48 @@ import {
   getAllTag,
   addTag,
   delTag,
-} from "@/api/article";
+} from "@/api/control/article";
+import type {
+  ArticleItem,
+  Pagination,
+  TagItem,
+  ArticleListResponse,
+} from "@/api/control/article/type";
 import MyTable from "@/components/table/MyTable.vue";
 import MyDataPicker from "@/components/dataPicker/MyDataPicker.vue";
-import { Button } from "@/components/ui/button";
+import EditDialog from "./EditDialog.vue";
+import EditTag from "./EditTag.vue";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { BookPlus, Tag } from "lucide-vue-next";
 import { Switch } from "@/components/ui/switch";
-import EditDialog from "./articleComponent/EditDialog.vue";
 import { ElMessage } from "element-plus";
 import { throttle } from "lodash-es";
-import { Tag } from "lucide-vue-next";
 
 const articleData = ref();
-const showArticleDialog = ref(false);
-const showDelDialog = ref(false);
-const delAimId = ref(null); //删除文章的id
-const EditOrAdd = ref(0);
-const content = ref(null);
+const showArticleDialog = ref<boolean>(false);
+const showDelDialog = ref<boolean>(false);
+const delAimId = ref<number | null>(null); //删除文章的id
 
 const showTagDialog = ref(false);
-const tagList = ref([]);
+const tagList = ref<TagItem[]>([]);
 const tagInput = ref("");
 const tagInputVisible = ref(false);
 const tagInputRef = ref(null);
 
 const dateRange = ref([]);
 const searchKey = ref("");
-const pagination = reactive({
+
+const rowInfo = ref<Partial<ArticleItem>>({
+  id: null,
+  title: "",
+  cover_img: "",
+  abstract: "",
+  content: "",
+  status: 1, // 1公开 2私密
+  tag: [],
+});
+const pagination_info = reactive<Pagination>({
   pageNo: 1,
   pageSize: 10,
   total: 0,
@@ -99,7 +114,7 @@ const columns = [
   },
 ];
 //控制文章显隐
-const changeStatus = async (row) => {
+const handleChangeStatus = async (row: ArticleItem) => {
   console.log(row);
   const { status } = await changeArticleStatus({
     id: row.id,
@@ -110,7 +125,7 @@ const changeStatus = async (row) => {
   }
 };
 //控制文章置顶
-const changeTop = async (row) => {
+const handleChangeTop = async (row: ArticleItem) => {
   console.log(row);
   const { status } = await changeArticleTop({
     id: row.id,
@@ -120,14 +135,9 @@ const changeTop = async (row) => {
     ElMessage.success("操作成功");
   }
 };
-const back = () => {
-  //TODO 保留草稿功能
-  showArticleDialog.value = false;
-};
-const rowInfo = ref(null);
 
 //编辑文章
-const handleEditArticle = (row) => {
+const handleEditArticle = (row: ArticleItem) => {
   showArticleDialog.value = true;
   rowInfo.value = row;
 };
@@ -137,7 +147,7 @@ const updateArticleDialog = (data) => {
   getArticle();
 };
 //删除确认
-const delConfirm = (row) => {
+const handleDelConfirm = (row: ArticleItem) => {
   showDelDialog.value = true;
   delAimId.value = row.id;
   console.log(delAimId.value);
@@ -151,15 +161,7 @@ const confirm = async () => {
     getArticle();
   }
 };
-//发布文章按钮
-const publishArticle = () => {
-  showArticleDialog.value = true;
-  EditOrAdd.value = 1;
-};
-const clearData = () => {
-  console.log("清除数据");
-  content.value = null;
-};
+
 const tagManagement = async () => {
   showTagDialog.value = true;
   console.log(data);
@@ -192,16 +194,16 @@ const handleClose = async (id) => {
 };
 //获取文章列表
 const getArticle = async () => {
-  const { data, status, pagination_info } = await getAllArticle({
-    pageNo: pagination.pageNo,
-    pageSize: pagination.pageSize,
+  const { data, status, pagination } = await getAllArticle({
+    pageNo: pagination_info.pageNo,
+    pageSize: pagination_info.pageSize,
     dateRange: dateRange.value,
     searchKey: searchKey.value,
   });
   if (status == 1) {
     console.log(data);
     articleData.value = data;
-    Object.assign(pagination, pagination_info);
+    Object.assign(pagination, pagination);
   }
 };
 const throttledGetArticle = throttle(getArticle, 1000);
@@ -220,17 +222,21 @@ onMounted(() => {
 <template>
   <div class="px-5">
     <div class="my-2 flex gap-2">
-      <EditDialog
-        v-model:showArticleDialog="showArticleDialog"
-        :rowInfo="rowInfo" />
       <Button
+        @click="showArticleDialog = true"
         variant="outline"
-        class="cursor-pointer"
-        @click="tagManagement">
+        class="cursor-pointer">
+        <BookPlus />
+        发布文章
+      </Button>
+      <Button
+        @click="showTagDialog = true"
+        variant="outline"
+        class="cursor-pointer">
         <Tag />
         标签管理
       </Button>
-      <MyDataPicker />
+      <MyDataPicker @update:article="getArticle" />
     </div>
     <MyTable
       :data="articleData"
@@ -271,13 +277,13 @@ onMounted(() => {
             class="cursor-pointer"
             name="top"
             :model-value="!row.status"
-            @update:model-value="changeStatus(row)">
+            @update:model-value="handleChangeStatus(row)">
           </Switch>
           <Label>展示</Label>
           <Switch
             class="cursor-pointer"
             :model-value="!row.top"
-            @update:model-value="changeTop(row)">
+            @update:model-value="handleChangeTop(row)">
           </Switch>
           <button
             class="text-blue-600 hover:text-blue-800 cursor-pointer"
@@ -286,11 +292,19 @@ onMounted(() => {
           </button>
           <button
             class="text-red-600 hover:text-red-800 cursor-pointer"
-            @click="delConfirm(row.id)">
+            @click="handleDelConfirm(row)">
             删除
           </button>
         </div>
       </template>
     </MyTable>
   </div>
+  <EditDialog
+    v-model:showArticleDialog="showArticleDialog"
+    v-model:rowInfo="rowInfo"
+    :tagList="tagList"
+    @update:article="getArticle" />
+  <EditTag
+    v-model:showTagDialog="showTagDialog"
+    @update:tagList="getTagList" />
 </template>

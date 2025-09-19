@@ -1,9 +1,9 @@
 import axios from "axios";
-import { ElMessage } from "element-plus";
+import { toast } from "vue-sonner";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";
 let request = axios.create({
-  baseURL: '/',
+  baseURL: "/",
   timeout: 10000,
 });
 request.interceptors.request.use((config) => {
@@ -11,12 +11,12 @@ request.interceptors.request.use((config) => {
   const token = useUserStore().token;
   if (token) {
     //辅助判断Token是否过期
-    const payload = JSON.parse(atob(token.split('.')[1])); // 解析 token 的 payload
+    const payload = JSON.parse(atob(token.split(".")[1])); // 解析 token 的 payload
     const expirationTime = payload.exp * 1000; // 转换为毫秒
     const currentTime = Date.now();
     if (currentTime > expirationTime) {
-      localStorage.removeItem('user'); // 清除过期的 token
-      useRouter().push('/login'); // 使用路由跳转，避免页面刷新
+      localStorage.removeItem("user"); // 清除过期的 token
+      useRouter().push("/login"); // 使用路由跳转，避免页面刷新
     } else {
       config.headers.authorization = `Bearer ${token}`; // 遵循 Bearer 规范
     }
@@ -25,9 +25,7 @@ request.interceptors.request.use((config) => {
 });
 
 request.interceptors.response.use(
-  (response) => {
-    return response.data;
-  },
+  (response) => response.data,
   (error) => {
     let message = "";
     let status = error.response;
@@ -49,9 +47,8 @@ request.interceptors.response.use(
         message = "网络出现问题";
         break;
     }
-    ElMessage({
-      type: "error",
-      message,
+    toast.error(message, {
+      duration: 3000,
     });
     return Promise.reject(error);
   }

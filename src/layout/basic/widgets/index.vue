@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import User from "./widgets/User.vue";
-import ToggleTheme from "./widgets/ToggleTheme.vue";
-import Message from "./widgets/Message.vue";
+import User from "./User.vue";
+import ToggleTheme from "./ToggleTheme.vue";
+import Message from "./Message.vue";
 import Settings from "./settings/index.vue";
 </script>
 <template>

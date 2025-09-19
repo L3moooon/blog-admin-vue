@@ -1,11 +1,12 @@
-<template>
-  <router-view></router-view>
-</template>
-
 <script setup>
-// import "./styles/reset.css";
 import "./styles/index.css";
 import "element-plus/dist/index.css";
+
+import { Toaster } from "@/components/ui/sonner";
+import "vue-sonner/style.css";
 </script>
 
-<style lang="scss" scoped></style>
+<template>
+  <Toaster />
+  <router-view></router-view>
+</template>

@@ -167,7 +167,7 @@ import {
   getPermissionList,
   getRoleDetail,
   assignPermission,
-} from "@/api/role";
+} from "@/api/control/role";
 import { ElMessage } from "element-plus";
 import { Plus, User, Delete, Edit } from "@element-plus/icons-vue";
 

@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 import AppSidebar from "@/layout/basic/AppSidebar.vue";
 import AppBreadcrumb from "@/layout/basic/AppBreadcrumb.vue";
-import AppWidget from "@/layout/basic/AppWidget.vue";
+import AppWidget from "@/layout/basic/widgets/index.vue";
 import AppTabSet from "@/layout/basic/AppTabSet.vue";
 </script>
 
