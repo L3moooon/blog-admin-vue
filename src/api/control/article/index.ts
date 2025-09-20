@@ -4,10 +4,17 @@ import type {
   TagListResponse,
   Pagination,
 } from "@/api/control/article/type";
-//获取所有文章列表
+
 enum API {
-  ARTICLE = "/public/getAllArticle",
-  UPDATE_ARTICLE = "/admin/article/update",
+  GET_ARTICLE = "/admin/article/getArticleList", //获取文章列表
+  ADD_ARTICLE = "/admin/article/addArticle", //新增文章
+  UPDATE_ARTICLE = "/admin/article/updateArticle", //修改文章
+  PARTIAL_UPDATE_ARTICLE = "/admin/article/partialUpdateArticle", //部分更新文章
+  DELETE_ARTICLE = "/admin/article/deleteArticle", //删除文章
+
+  GET_TAG = "/admin/tag/getAllTags", //获取标签列表
+  ADD_TAG = "/admin/tag/addTag", //新增标签
+  DELETE_TAG = "/admin/tag/deleteTag", //删除标签
 }
 // interface ResponseData<T> {
 //   status: number;
@@ -15,18 +22,17 @@ enum API {
 //   data: T;
 //   pagination?: Pagination;
 // }
-export const getAllArticle = (data) => {
-  return request.post<any, ArticleListResponse>("/public/getAllArticle", data);
+
+export const getArticleList = (data) => {
+  return request.get<any, ArticleListResponse>(API.GET_ARTICLE, data);
 };
-//新增或修改文章
-export const addOrEditArticle = (data) => {
+export const updateArticle = (data) => {
   return request({
-    url: "/admin/article/editOrAdd",
+    url: "/admin/article/update",
     method: "post",
     data,
   });
 };
-//更改文章显隐状态
 export const changeArticleStatus = (data) => {
   return request({
     url: "/admin/article/changeStatus",
@@ -34,7 +40,6 @@ export const changeArticleStatus = (data) => {
     data,
   });
 };
-//更改文章置顶状态
 export const changeArticleTop = (data) => {
   return request({
     url: "/admin/article/changeTop",
@@ -42,7 +47,6 @@ export const changeArticleTop = (data) => {
     data,
   });
 };
-//删除文章
 export const delArticle = (data) => {
   return request({
     url: "/admin/article/del",
@@ -50,14 +54,12 @@ export const delArticle = (data) => {
     data,
   });
 };
-//获取所有标签列表
 export const getAllTag = () => {
   return request<TagListResponse>({
     url: "/admin/tag/getAllTags",
     method: "post",
   });
 };
-//新增标签
 export const addTag = (data) => {
   return request({
     url: "/admin/tag/addTag",
@@ -65,7 +67,6 @@ export const addTag = (data) => {
     data,
   });
 };
-//删除标签
 export const delTag = (data) => {
   return request({
     url: "/admin/tag/delTag",

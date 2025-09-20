@@ -13,7 +13,7 @@ import AppTabSet from "@/layout/basic/AppTabSet.vue";
   <div class="flex">
     <SidebarProvider>
       <AppSidebar />
-      <main class="flex-auto">
+      <main class="flex-auto overflow-hidden">
         <div class="flex items-center !px-5">
           <SidebarTrigger />
           <AppBreadcrumb />

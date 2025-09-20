@@ -169,7 +169,7 @@ export const publicRoutes: RouteRecordRaw[] = [
       {
         name: "分析页",
         path: "/analysis",
-        component: () => import("@/views/overview/analysis.vue"),
+        component: () => import("@/views/overview/analysis/index.vue"),
         meta: {
           hidden: false,
           icon: ChartLine,

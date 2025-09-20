@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive, nextTick } from "vue";
 import {
-  getAllArticle,
+  getArticleList,
   changeArticleStatus,
   changeArticleTop,
   delArticle as del,
@@ -11,7 +11,7 @@ import {
 } from "@/api/control/article";
 import type {
   ArticleItem,
-  Pagination,
+  PaginationData,
   TagItem,
   ArticleListResponse,
 } from "@/api/control/article/type";
@@ -21,17 +21,34 @@ import EditDialog from "./EditDialog.vue";
 import EditTag from "./EditTag.vue";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { toast } from "vue-sonner";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { BookPlus, Tag } from "lucide-vue-next";
 import { Switch } from "@/components/ui/switch";
-import { ElMessage } from "element-plus";
 import { throttle } from "lodash-es";
 
 const articleData = ref();
 const showArticleDialog = ref<boolean>(false);
-const showDelDialog = ref<boolean>(false);
-const delAimId = ref<number | null>(null); //删除文章的id
-
 const showTagDialog = ref(false);
+
 const tagList = ref<TagItem[]>([]);
 const tagInput = ref("");
 const tagInputVisible = ref(false);
@@ -49,7 +66,7 @@ const rowInfo = ref<Partial<ArticleItem>>({
   status: 1, // 1公开 2私密
   tag: [],
 });
-const pagination_info = reactive<Pagination>({
+const pagination_info = reactive<PaginationData>({
   pageNo: 1,
   pageSize: 10,
   total: 0,
@@ -121,7 +138,7 @@ const handleChangeStatus = async (row: ArticleItem) => {
     status: row.status,
   });
   if (status == 1) {
-    ElMessage.success("操作成功");
+    toast.success("操作成功");
   }
 };
 //控制文章置顶
@@ -132,7 +149,7 @@ const handleChangeTop = async (row: ArticleItem) => {
     top: row.top,
   });
   if (status == 1) {
-    ElMessage.success("操作成功");
+    toast.success("操作成功");
   }
 };
 
@@ -146,18 +163,11 @@ const updateArticleDialog = (data) => {
   showArticleDialog.value = data;
   getArticle();
 };
-//删除确认
-const handleDelConfirm = (row: ArticleItem) => {
-  showDelDialog.value = true;
-  delAimId.value = row.id;
-  console.log(delAimId.value);
-};
-//确认删除
-const confirm = async () => {
-  const { status } = await del({ id: delAimId.value });
+//删除文章
+const handleDelConfirm = async (id: number) => {
+  const { status } = await del({ id });
   if (status == 1) {
-    ElMessage.success("删除成功");
-    showDelDialog.value = false;
+    toast.success("删除成功");
     getArticle();
   }
 };
@@ -178,8 +188,8 @@ const handleInputConfirm = async () => {
     // dynamicTags.value.push(tagInput.value);
     const { status } = await addTag({ name: tagInput.value });
     if (status == 1) {
-      ElMessage.success("添加成功");
-      getTagList();
+      toast.success("添加成功");
+      getTag();
     }
   }
   tagInputVisible.value = false;
@@ -188,13 +198,13 @@ const handleInputConfirm = async () => {
 const handleClose = async (id) => {
   const { status } = await delTag({ id: id });
   if (status == 1) {
-    ElMessage.success("删除成功");
-    getTagList();
+    toast.success("删除成功");
+    getTag();
   }
 };
 //获取文章列表
 const getArticle = async () => {
-  const { data, status, pagination } = await getAllArticle({
+  const { data, status, pagination } = await getArticleList({
     pageNo: pagination_info.pageNo,
     pageSize: pagination_info.pageSize,
     dateRange: dateRange.value,
@@ -207,7 +217,7 @@ const getArticle = async () => {
   }
 };
 const throttledGetArticle = throttle(getArticle, 1000);
-const getTagList = async () => {
+const getTag = async () => {
   const { data } = await getAllTag();
   tagList.value = data;
   console.log(tagList.value);
@@ -215,7 +225,7 @@ const getTagList = async () => {
 
 onMounted(() => {
   getArticle();
-  getTagList();
+  getTag();
 });
 </script>
 
@@ -290,20 +300,60 @@ onMounted(() => {
             @click="handleEditArticle(row)">
             编辑
           </button>
-          <button
-            class="text-red-600 hover:text-red-800 cursor-pointer"
-            @click="handleDelConfirm(row)">
-            删除
-          </button>
+          <!-- 删除文章 -->
+          <AlertDialog v-model:open="showDelDialog">
+            <AlertDialogTrigger
+              class="text-red-600 hover:text-red-800 cursor-pointer">
+              删除
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>删除文章</AlertDialogTitle>
+                <AlertDialogDescription>
+                  删除操作无法撤销，确认删除文章：{{ row.title }}。
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction @click="handleDelConfirm(row.id)">
+                  确认
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </template>
     </MyTable>
+    <Pagination
+      v-slot="{ page }"
+      :items-per-page="10"
+      :total="30"
+      :default-page="2">
+      <PaginationContent v-slot="{ items }">
+        <PaginationPrevious />
+        <template
+          v-for="(item, index) in items"
+          :key="index">
+          <PaginationItem
+            v-if="item.type === 'page'"
+            :value="item.value"
+            :is-active="item.value === page">
+            {{ item.value }}
+          </PaginationItem>
+        </template>
+        <PaginationEllipsis :index="10" />
+        <PaginationNext />
+      </PaginationContent>
+    </Pagination>
   </div>
+
+  <!-- 新增/编辑文章 -->
   <EditDialog
     v-model:showArticleDialog="showArticleDialog"
     v-model:rowInfo="rowInfo"
     :tagList="tagList"
     @update:article="getArticle" />
+  <!-- 新增/编辑标签 -->
   <EditTag
     v-model:showTagDialog="showTagDialog"
     @update:tagList="getTagList" />

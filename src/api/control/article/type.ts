@@ -4,7 +4,7 @@ export interface ResponseData {
   message: string;
 }
 // 分页数据模型
-export interface Pagination {
+export interface PaginationData {
   pageNo: number;
   pageSize: number;
   total: number;
@@ -29,7 +29,7 @@ export interface ArticleItem {
 // 文章列表接口
 export interface ArticleListResponse extends ResponseData {
   data: ArticleItem[]; // 文章列表数据
-  pagination: Pagination; // 分页信息
+  pagination: PaginationData; // 分页信息
 }
 
 // 标签数据模型
