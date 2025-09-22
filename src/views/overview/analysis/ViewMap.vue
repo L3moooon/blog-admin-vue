@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, shallowRef } from "vue";
 import * as echarts from "echarts";
-// 引入中国地图GeoJSON（确保路径正确，若为省市级地图需替换对应JSON）
 import chinaGeo from "@/assets/geo/china.json";
 type EChartsOption = echarts.EChartsOption;
 
-// 1. 避免强制非空断言，初始值设为null
 const chartDom = ref<HTMLElement | null>(null);
 const resizeObserver = ref<ResizeObserver | null>(null);
 const myChart = shallowRef<echarts.ECharts | null>(null);
@@ -34,7 +32,7 @@ const option: EChartsOption = {
     min: 100, // 修正数值范围（匹配中国省份数据量级）
     max: 13000,
     inRange: {
-      color: ["#eff6fc", "#71afe5", "#004578"], // 调整渐变色（更易区分）
+      color: ["#eff6fc", "#71afe5", "#004578"], // 调整渐变色
     },
     // text: ["高值", "低值"],
     calculable: true,
@@ -49,7 +47,7 @@ const option: EChartsOption = {
       top: "0%",
       right: "27%",
       bottom: "0%",
-      zoom: 1.5, // 放大到1.2倍（比默认更大）
+      zoom: 1.5, // 放大
       // 若地图位置因缩放偏移，可配合 center 调整中心坐标
       center: [105, 38], // 以经度105、纬度38为中心（中国大致中心）
       label: {

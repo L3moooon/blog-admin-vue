@@ -35,12 +35,12 @@ onMounted(() => {
 <template>
   <div class="h-42 rounded-sm border p-5">
     <div class="flex items-center justify-between mb-4">
-      <h class="font-semibold text-primary text-lg">{{ title }}</h>
+      <h1 class="font-semibold text-primary text-lg">{{ title }}</h1>
       <slot name="icon"> </slot>
     </div>
-    <div class="counter-value">
-      <span class="number-scroll-element">{{ count }}</span>
+    <div>
+      <span>{{ count }}</span>
     </div>
-    <p class="counter-label">{{ description }}</p>
+    <p>{{ description }}</p>
   </div>
 </template>

@@ -15,6 +15,6 @@ app.use(ElementPlus, {
 Object.keys(directives).forEach((key) => {
   app.directive(key, directives[key]);
 });
-app.use(pinia);
 app.use(router);
+app.use(pinia);
 app.mount("#app");

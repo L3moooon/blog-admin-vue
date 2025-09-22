@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref, shallowRef } from "vue";
 import * as echarts from "echarts";
 type EChartsOption = echarts.EChartsOption;
+
+const chartDom = ref<HTMLElement | null>(null);
+const resizeObserver = ref<ResizeObserver | null>(null);
+const myChart = shallowRef<echarts.ECharts | null>(null);
 
 const option: EChartsOption = {
   color: ["#80FFA5", "#00DDFF", "#37A2FF", "#FF0087", "#FFBF00"],
@@ -105,31 +109,28 @@ const option: EChartsOption = {
   ],
 };
 onMounted(() => {
-  const chartDom = document.getElementById("echarts-trend")!;
-  let myChart = echarts.init(chartDom);
-  myChart = echarts.init(chartDom);
-  myChart.setOption(option);
+  chartDom.value = document.getElementById("echarts-trend")!;
+  myChart.value = echarts.init(chartDom.value);
+  myChart.value.setOption(option);
 
   // 监听容器自身尺寸变化
-  const resizeObserver = new ResizeObserver((entries) => {
+  resizeObserver.value = new ResizeObserver((entries) => {
     // 容器尺寸变化时触发
-    if (myChart) {
-      myChart.resize();
+    if (myChart.value) {
+      myChart.value.resize();
     }
   });
   // 监听图表容器
-  resizeObserver.observe(chartDom);
-  onUnmounted(() => {
-    // 清理监听
-    if (resizeObserver) {
-      const chartDom = document.getElementById("echarts-trend");
-      if (chartDom) resizeObserver.unobserve(chartDom);
-    }
-    if (myChart) {
-      myChart.dispose();
-      myChart = null;
-    }
-  });
+  resizeObserver.value.observe(chartDom.value);
+});
+onUnmounted(() => {
+  // 清理监听
+  if (resizeObserver.value) {
+    if (chartDom.value) resizeObserver.value.unobserve(chartDom.value);
+  }
+  if (myChart.value) {
+    myChart.value.dispose();
+  }
 });
 </script>
 <template>

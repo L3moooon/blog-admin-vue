@@ -195,7 +195,7 @@ export const publicRoutes: RouteRecordRaw[] = [
   },
   {
     path: "/notfound",
-    component: () => import("@/layout/notFound.vue"),
+    component: () => import("@/layout/notFound/index.vue"),
     meta: {
       hidden: true,
     },
