@@ -89,7 +89,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "角色管理",
         path: "/control/role",
-        component: () => import("@/views/control/role.vue"),
+        component: () => import("@/views/control/role/index.vue"),
         meta: {
           hidden: false,
           icon: KeyRound,

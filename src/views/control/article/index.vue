@@ -21,6 +21,8 @@ import EditDialog from "./EditDialog.vue";
 import EditTag from "./EditTag.vue";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Search } from "lucide-vue-next";
+import { Input } from "@/components/ui/input";
 import { toast } from "vue-sonner";
 import {
   Pagination,
@@ -231,23 +233,39 @@ onMounted(() => {
 
 <template>
   <div class="px-5">
-    <div class="my-2 flex gap-2">
-      <Button
-        @click="showArticleDialog = true"
-        variant="outline"
-        class="cursor-pointer">
-        <BookPlus />
-        发布文章
-      </Button>
-      <Button
-        @click="showTagDialog = true"
-        variant="outline"
-        class="cursor-pointer">
-        <Tag />
-        标签管理
-      </Button>
-      <MyDataPicker @update:article="getArticle" />
+    <div class="flex justify-between my-2">
+      <div class="flex gap-2">
+        <Button
+          @click="showArticleDialog = true"
+          variant="outline"
+          class="cursor-pointer">
+          <BookPlus />
+          发布文章
+        </Button>
+        <Button
+          @click="showTagDialog = true"
+          variant="outline"
+          class="cursor-pointer">
+          <Tag />
+          标签管理
+        </Button>
+      </div>
+      <div class="flex gap-2">
+        <div class="relative w-full max-w-sm items-center">
+          <Input
+            id="search"
+            type="text"
+            placeholder="搜索..."
+            class="pl-10" />
+          <span
+            class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+            <Search class="size-6 text-muted-foreground" />
+          </span>
+        </div>
+        <MyDataPicker @update:article="getArticle" />
+      </div>
     </div>
+
     <MyTable
       :data="articleData"
       :columns="columns"
@@ -301,9 +319,9 @@ onMounted(() => {
             编辑
           </button>
           <!-- 删除文章 -->
-          <AlertDialog v-model:open="showDelDialog">
+          <AlertDialog>
             <AlertDialogTrigger
-              class="text-red-600 hover:text-red-800 cursor-pointer">
+              class="text-red-400 hover:text-red-500 cursor-pointer">
               删除
             </AlertDialogTrigger>
             <AlertDialogContent>

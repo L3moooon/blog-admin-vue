@@ -41,7 +41,9 @@ const props = withDefaults(defineProps<TableProps>(), {
   alignCenter: false,
   showOverflowTooltip: false,
 });
-
+onMounted(() => {
+  console.log("props.columns", props.columns);
+});
 // 为每个单元格创建溢出状态
 const cellOverflowMap = ref(new Map<string, boolean>());
 const setCellOverflow = (cellId: string, isOverflow: boolean) => {

@@ -90,7 +90,7 @@ const handleCloseAllTabs = () => {
 };
 </script>
 <template>
-  <ScrollArea w-full>
+  <ScrollArea class="w-full">
     <div class="flex">
       <div
         class="h-10 flex"
@@ -159,7 +159,6 @@ const handleCloseAllTabs = () => {
               <ArrowLeftToLine class="mr-2 size-4" />
               关闭左侧
             </ContextMenuItem>
-
             <!-- 关闭右侧标签 -->
             <ContextMenuItem
               @click="handleCloseRightTabs"
@@ -167,7 +166,6 @@ const handleCloseAllTabs = () => {
               <ArrowRightToLine class="mr-2 size-4" />
               关闭右侧
             </ContextMenuItem>
-
             <ContextMenuSeparator />
             <!-- 关闭其他标签 -->
             <ContextMenuItem
@@ -176,7 +174,6 @@ const handleCloseAllTabs = () => {
               <ArrowRightLeft class="mr-2 size-4" />
               关闭其他标签
             </ContextMenuItem>
-
             <!-- 关闭所有标签 -->
             <ContextMenuItem
               @click="handleCloseAllTabs"

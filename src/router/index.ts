@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import { publicRoutes } from "./routes";
-import { Toaster } from "@/components/ui/sonner";
+import { toast } from "vue-sonner";
 import { useUserStore } from "@/store/user";
 import { useTabsStore } from "@/store/tabs";
 const router = createRouter({
@@ -32,7 +32,9 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       next("/login");
-      Toaster.warning("请先登录");
+      toast.warning("请先登录", {
+        duration: 2000,
+      });
     }
   }
 });

@@ -11,8 +11,8 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 </script>
 <template>
-  <LayoutDashboard
-    class="mr-2 size-5 hover:text-foreground transition-colors" />
+  <!-- <LayoutDashboard
+    class="mr-2 size-5 hover:text-foreground transition-colors" /> -->
   <Breadcrumb>
     <BreadcrumbList>
       <template

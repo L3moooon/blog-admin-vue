@@ -85,7 +85,7 @@ onMounted(() => {
         </div>
       </template>
       <template #cell-create_time="{ value }">
-        <span v-time="value"> {{ value }} </span>
+        <span v-time="value"> </span>
       </template>
       <template #cell-last_login_time="{ value }">
         <span v-time="value"> </span>
