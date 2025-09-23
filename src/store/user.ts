@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import router from "@/router/index";
 import { asyncRoutes, publicRoutes, anyRoutes } from "../router/routes";
-import { login as userLogin } from "@/api/login";
+import { login as userLogin } from "@/api/user";
 import { ElMessage } from "element-plus";
 import { cloneDeep } from "lodash-es";
 

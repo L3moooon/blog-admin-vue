@@ -153,7 +153,7 @@
   /* @apply bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80 disabled:opacity-50 disabled:pointer-events-none font-medium py-2 px-4 rounded-md transition; */
 }
 
-/* 以下为路由过渡动效 */
+/* 路由过渡动效-滑动出现 */
 .slide-enter-active,
 .slide-leave-active {
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -181,4 +181,42 @@
   opacity: 0;
   transform: translateX(2%);
   display: none;
+}
+
+/* 登录页过渡动效-淡入淡出 */
+/* .fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+} */
+/* 登录页过渡动效-淡入淡出 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* 进入动画的起始状态和离开动画的结束状态 */
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+/* 确保容器能正确容纳过渡元素 */
+.login-container {
+  position: relative;
+  min-height: 300px; /* 根据实际内容调整 */
+}
+
+/* 让切换的组件在同一个位置 */
+.login-container > * {
+  position: absolute;
+  width: 100%;
 }

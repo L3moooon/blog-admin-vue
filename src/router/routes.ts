@@ -80,7 +80,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "用户管理",
         path: "/control/user",
-        component: () => import("@/views/control/administrator.vue"),
+        component: () => import("@/views/control/administrator/index.vue"),
         meta: {
           hidden: false,
           icon: SquareUserRound,
@@ -107,7 +107,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "评论管理",
         path: "/control/comment",
-        component: () => import("@/views/control/comment.vue"),
+        component: () => import("@/views/control/comment/index.vue"),
         meta: {
           hidden: false,
           icon: MessageSquareQuote,

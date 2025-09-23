@@ -17,7 +17,7 @@ import type {
 } from "@/api/control/article/type";
 import MyTable from "@/components/table/MyTable.vue";
 import MyDataPicker from "@/components/dataPicker/MyDataPicker.vue";
-import EditDialog from "./EditDialog.vue";
+import EditArticle from "./EditArticle.vue";
 import EditTag from "./EditTag.vue";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -45,9 +45,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { BookPlus, Tag } from "lucide-vue-next";
 import { Switch } from "@/components/ui/switch";
-import { throttle } from "lodash-es";
+import { debounce } from "lodash-es";
 
-const articleData = ref();
+const articleList = ref();
 const showArticleDialog = ref<boolean>(false);
 const showTagDialog = ref(false);
 
@@ -55,9 +55,6 @@ const tagList = ref<TagItem[]>([]);
 const tagInput = ref("");
 const tagInputVisible = ref(false);
 const tagInputRef = ref(null);
-
-const dateRange = ref([]);
-const searchKey = ref("");
 
 const rowInfo = ref<Partial<ArticleItem>>({
   id: null,
@@ -68,6 +65,8 @@ const rowInfo = ref<Partial<ArticleItem>>({
   status: 1, // 1公开 2私密
   tag: [],
 });
+const dateRange = ref([]);
+const searchKey = ref("");
 const pagination_info = reactive<PaginationData>({
   pageNo: 1,
   pageSize: 10,
@@ -135,6 +134,7 @@ const columns = [
 //控制文章显隐
 const handleChangeStatus = async (row: ArticleItem) => {
   console.log(row);
+  row.status = !row.status;
   const { status } = await changeArticleStatus({
     id: row.id,
     status: row.status,
@@ -146,6 +146,7 @@ const handleChangeStatus = async (row: ArticleItem) => {
 //控制文章置顶
 const handleChangeTop = async (row: ArticleItem) => {
   console.log(row);
+  row.top = !row.top;
   const { status } = await changeArticleTop({
     id: row.id,
     top: row.top,
@@ -206,6 +207,12 @@ const handleClose = async (id) => {
 };
 //获取文章列表
 const getArticle = async () => {
+  console.log({
+    pageNo: pagination_info.pageNo,
+    pageSize: pagination_info.pageSize,
+    dateRange: dateRange.value,
+    searchKey: searchKey.value,
+  });
   const { data, status, pagination } = await getArticleList({
     pageNo: pagination_info.pageNo,
     pageSize: pagination_info.pageSize,
@@ -214,11 +221,11 @@ const getArticle = async () => {
   });
   if (status == 1) {
     console.log(data);
-    articleData.value = data;
+    articleList.value = data;
     Object.assign(pagination, pagination);
   }
 };
-const throttledGetArticle = throttle(getArticle, 1000);
+const debouncedGetArticle = debounce(getArticle, 800);
 const getTag = async () => {
   const { data } = await getAllTag();
   tagList.value = data;
@@ -253,6 +260,8 @@ onMounted(() => {
       <div class="flex gap-2">
         <div class="relative w-full max-w-sm items-center">
           <Input
+            v-model="searchKey"
+            @input="debouncedGetArticle"
             id="search"
             type="text"
             placeholder="搜索..."
@@ -265,9 +274,8 @@ onMounted(() => {
         <MyDataPicker @update:article="getArticle" />
       </div>
     </div>
-
     <MyTable
-      :data="articleData"
+      :data="articleList"
       :columns="columns"
       align-center>
       <template #cell-cover_img="{ value }">
@@ -328,7 +336,7 @@ onMounted(() => {
               <AlertDialogHeader>
                 <AlertDialogTitle>删除文章</AlertDialogTitle>
                 <AlertDialogDescription>
-                  删除操作无法撤销，确认删除文章：{{ row.title }}。
+                  删除操作无法撤销，确认删除文章：{{ row.title }}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -343,10 +351,13 @@ onMounted(() => {
       </template>
     </MyTable>
     <Pagination
+      class="mt-2"
       v-slot="{ page }"
-      :items-per-page="10"
-      :total="30"
-      :default-page="2">
+      v-model:page="pagination_info.pageNo"
+      :items-per-page="pagination_info.pageSize"
+      :total="pagination_info.total"
+      showEdges
+      :default-page="1">
       <PaginationContent v-slot="{ items }">
         <PaginationPrevious />
         <template
@@ -358,15 +369,20 @@ onMounted(() => {
             :is-active="item.value === page">
             {{ item.value }}
           </PaginationItem>
+          <PaginationEllipsis
+            v-else
+            :key="item.type"
+            :index="index">
+            &#8230;
+          </PaginationEllipsis>
         </template>
-        <PaginationEllipsis :index="10" />
         <PaginationNext />
       </PaginationContent>
     </Pagination>
   </div>
 
   <!-- 新增/编辑文章 -->
-  <EditDialog
+  <EditArticle
     v-model:showArticleDialog="showArticleDialog"
     v-model:rowInfo="rowInfo"
     :tagList="tagList"
