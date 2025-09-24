@@ -162,8 +162,8 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { upload } from "/src/api/public";
-import { getThemeInfo, modiThemeInfo } from "../../api/theme";
-import { getRandomPoem } from "../../api/external";
+import { getThemeInfo, modiThemeInfo } from "../../api/setting/theme";
+import { getRandomPoem } from "../../api/public/external";
 import { ElMessage } from "element-plus";
 import { Delete, Download, Plus, ZoomIn } from "@element-plus/icons-vue";
 const form = reactive({});

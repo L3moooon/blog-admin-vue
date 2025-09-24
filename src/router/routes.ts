@@ -26,7 +26,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     redirect: "/data/visitor",
     component: () => import("@/layout/basic/index.vue"),
     meta: {
-      hidden: false,
+      showInTabs: true,
       icon: Database,
     },
     children: [
@@ -35,7 +35,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/data/visitor",
         component: () => import("@/views/data/visitor.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: IdCard,
         },
       },
@@ -44,7 +44,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/data/buried",
         component: () => import("@/views/data/buried.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: Crosshair,
         },
       },
@@ -53,7 +53,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/data/performance",
         component: () => import("@/views/data/performance.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: Rocket,
         },
       },
@@ -62,7 +62,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/data/log",
         component: () => import("@/views/data/errorLog.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: Cctv,
         },
       },
@@ -73,7 +73,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     path: "/control",
     component: () => import("@/layout/basic/index.vue"),
     meta: {
-      hidden: false,
+      showInTabs: true,
       icon: Settings2,
     },
     children: [
@@ -82,7 +82,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/control/user",
         component: () => import("@/views/control/administrator/index.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: SquareUserRound,
         },
       },
@@ -91,7 +91,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/control/role",
         component: () => import("@/views/control/role/index.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: KeyRound,
         },
       },
@@ -100,7 +100,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/control/article",
         component: () => import("@/views/control/article/index.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: NotebookText,
         },
       },
@@ -109,7 +109,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/control/comment",
         component: () => import("@/views/control/comment/index.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: MessageSquareQuote,
         },
       },
@@ -121,7 +121,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     redirect: "/setting/theme",
     component: () => import("@/layout/basic/index.vue"),
     meta: {
-      hidden: false,
+      showInTabs: true,
       icon: Settings,
     },
     children: [
@@ -130,7 +130,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/setting/theme",
         component: () => import("@/views/setting/theme.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: Castle,
         },
       },
@@ -139,7 +139,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/setting/music",
         component: () => import("@/views/setting/music.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: Music4,
         },
       },
@@ -148,7 +148,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: "/setting/friendship",
         component: () => import("@/views/setting/friendship.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: Handshake,
         },
       },
@@ -162,7 +162,7 @@ export const publicRoutes: RouteRecordRaw[] = [
     redirect: "analysis",
     component: () => import("@/layout/basic/index.vue"),
     meta: {
-      hidden: false,
+      showInTabs: true,
       icon: LayoutDashboard,
     },
     children: [
@@ -171,7 +171,7 @@ export const publicRoutes: RouteRecordRaw[] = [
         path: "/analysis",
         component: () => import("@/views/overview/analysis/index.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: ChartLine,
         },
       },
@@ -180,7 +180,7 @@ export const publicRoutes: RouteRecordRaw[] = [
         path: "/workplace",
         component: () => import("@/views/overview/workplace.vue"),
         meta: {
-          hidden: false,
+          showInTabs: true,
           icon: LaptopMinimalCheck,
         },
       },
@@ -190,14 +190,14 @@ export const publicRoutes: RouteRecordRaw[] = [
     path: "/login",
     component: () => import("@/layout/login/index.vue"),
     meta: {
-      hidden: true,
+      showInTabs: false,
     },
   },
   {
     path: "/notfound",
     component: () => import("@/layout/notFound/index.vue"),
     meta: {
-      hidden: true,
+      showInTabs: false,
     },
   },
 ];
@@ -206,7 +206,7 @@ export const anyRoutes: RouteRecordRaw[] = [
     path: "/:pathMatch(.*)*",
     redirect: "/notfound",
     meta: {
-      hidden: true,
+      showInTabs: false,
     },
   },
 ];

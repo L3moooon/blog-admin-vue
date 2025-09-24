@@ -1,17 +1,15 @@
-import { createApp } from "vue";
 import App from "./App.vue";
 import router from "@/router/index";
-import ElementPlus from "element-plus";
-import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import directives from "./directives"; // 导入指令
-
+import { createApp } from "vue";
 import { createPinia } from "pinia";
 
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate); //pinia持久化
+
 const app = createApp(App);
-app.use(ElementPlus, {
-  locale: zhCn,
-});
+//注册自定义指令
 Object.keys(directives).forEach((key) => {
   app.directive(key, directives[key]);
 });

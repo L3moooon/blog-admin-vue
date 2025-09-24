@@ -1,0 +1,33 @@
+//登录请求
+export interface LoginRequest {
+  type: "account" | "email" | "phone";
+  account?: string;
+  password?: string;
+  tel?: string;
+  captcha?: string;
+}
+//登录响应
+export interface LoginResponse {
+  code: number;
+  msg?: string;
+  token: string;
+  user: {
+    name: string;
+    permissions: {
+      routeKeys: Array<string>;
+      componentKeys?: Array<string>;
+      buttonKeys?: Array<string>;
+    };
+  };
+}
+//注册请求
+export interface RegisterRequest {
+  name: string;
+  account: string;
+  password: string;
+}
+//注册响应
+export interface RegisterResponse {
+  code: number;
+  msg?: string;
+}

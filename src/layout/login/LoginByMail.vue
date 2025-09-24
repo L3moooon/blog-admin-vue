@@ -20,19 +20,14 @@ import {
   PinInputGroup,
   PinInputSlot,
 } from "@/components/ui/pin-input";
-import SlideCaptcha from "./subComponent/SlideCaptcha.vue";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useForm } from "vee-validate";
-import { EyeOff, Eye } from "lucide-vue-next";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { ref, onMounted, onUnmounted, shallowRef, watch } from "vue";
 
 const showType = defineModel<"account" | "mail" | "phone" | "forgetPassword">();
-const showPassword = ref<boolean>(false);
 const formSchema = toTypedSchema(
   z.object({
     account: z
@@ -48,51 +43,18 @@ const formSchema = toTypedSchema(
   })
 );
 
-const form = useForm({});
-
-const onSubmit = form.handleSubmit(async (values) => {
-  console.log("Form submitted!", values);
-});
-// 定义表单数据类型
-// interface FormValues {
-//   name: string;
-//   email: string;
-//   age: string;
-// }
-
 // 初始化表单
-// 初始化vee-validate表单
-const { values, errors, handleSubmit, isSubmitting } = useForm({
+const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     account: "",
     password: "",
   },
 });
-
-// const toolbar = DomEditor.getToolbar(editor);
-onMounted(() => {
-  // console.log("editorRef", editor  Ref);
+const onSubmit = form.handleSubmit(async (values) => {
+  console.log("Form submitted!", values);
 });
-
-//提交
-// const submitArticle = async () => {
-//   const { status } = await addOrEditArticle({
-//     id: form.id,
-//     title: form.title,
-//     cover_img: form.cover_img,
-//     abstract: form.abstract,
-//     content: form.content,
-//     status: form.status,
-//     tag: form.chooseTag,
-//   });
-//   if (status == 1) {
-//     ElMessage.success("提交成功");
-//     emits("Update:showArticleDialog", false);
-//   } else {
-//     ElMessage.error("提交失败");
-//   }
-// };
+onMounted(() => {});
 </script>
 
 <template>
@@ -101,7 +63,7 @@ onMounted(() => {
       <CardTitle class="text-4xl font-bold flex items-center">
         欢迎回来
       </CardTitle>
-      <CardDescription>请输入您的邮箱获取验证码</CardDescription>
+      <CardDescription>请输入您的邮箱获取验证码登录</CardDescription>
       <img
         class="w-24 absolute top-0 right-4"
         src="@/assets/images/mailbox.png"

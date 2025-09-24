@@ -25,7 +25,7 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
   const currentX =
     event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
   const deltaX = currentX - startX;
-  console.log(btnRef.value?.offsetWidth, containerRef.value?.offsetWidth);
+  // console.log(btnRef.value?.offsetWidth, containerRef.value?.offsetWidth);
   const newProgress =
     initialProgress + (deltaX / containerRef.value?.offsetWidth) * 100;
   progress.value = Math.min(maxProgress.value, Math.max(0, newProgress));

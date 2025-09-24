@@ -43,7 +43,7 @@ const handlerJump = (path: string) => {
         <SidebarGroupContent>
           <template v-for="item in userStore.menuList">
             <Collapsible
-              v-show="!item.meta.hidden"
+              v-show="item.meta.showInTabs"
               defaultOpen
               class="group/collapsible">
               <SidebarGroup class="pt-0 px-0">

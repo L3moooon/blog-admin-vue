@@ -1,14 +1,20 @@
 import axios from "axios";
+import type {
+  AxiosInstance,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { toast } from "vue-sonner";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";
-let request = axios.create({
+const request: AxiosInstance = axios.create({
   baseURL: "/",
   timeout: 10000,
 });
-request.interceptors.request.use((config) => {
+request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   //获取token，登录成功以后携带给服务器
   const token = useUserStore().token;
+  console.log(token);
   if (token) {
     //辅助判断Token是否过期
     const payload = JSON.parse(atob(token.split(".")[1])); // 解析 token 的 payload
@@ -25,7 +31,7 @@ request.interceptors.request.use((config) => {
 });
 
 request.interceptors.response.use(
-  (response) => response.data,
+  (response: AxiosResponse) => response.data,
   (error) => {
     let message = "";
     let status = error.response;

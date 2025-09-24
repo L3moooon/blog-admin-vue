@@ -31,7 +31,7 @@ export const useTabsStore = defineStore("tabs", {
       if (path === this.activeKey && this.tabList.length > 0) {
         this.activeKey = this.tabList[index - 1 >= 0 ? index - 1 : 0].path;
         // 跳转到新的激活标签对应的路由
-        router.push(this.activeKey);
+        // router.push(this.activeKey);
       }
     },
 

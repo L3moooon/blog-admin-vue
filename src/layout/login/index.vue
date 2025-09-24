@@ -16,7 +16,7 @@ onMounted(() => {});
   <div
     class="w-screen h-screen bg-[url('@/assets/images/background.png')] bg-cover flex justify-center items-center">
     <div class="aspect-[4/3] w-2/5">
-      <transition-Group
+      <transition-group
         name="fade"
         tag="div">
         <LoginByAccount
@@ -35,7 +35,7 @@ onMounted(() => {});
           v-if="showType == 'forgetPassword'"
           v-model="showType"
           key="forgetPassword" />
-      </transition-Group>
+      </transition-group>
     </div>
   </div>
 </template>

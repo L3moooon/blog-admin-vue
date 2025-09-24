@@ -15,6 +15,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const token = useUserStore().token;
   const menuList = useUserStore().menuList;
+  console.log(token);
   if (token) {
     if (menuList.length) {
       next();
@@ -41,12 +42,15 @@ router.beforeEach(async (to, from, next) => {
 //全局后置守卫
 router.afterEach((to, from) => {
   const tabsStore = useTabsStore();
-  //用于显示动态菜单
-  tabsStore.addTab({
-    path: to.path,
-    name: to.name,
-    icon: to.meta.icon,
-    key: to.path,
-  });
+  // 基于路由层级判断是否为页面路由
+  if (to.meta.showInTabs) {
+    //用于显示动态菜单
+    tabsStore.addTab({
+      path: to.path,
+      name: to.name,
+      icon: to.meta.icon,
+      key: to.path,
+    });
+  }
 });
 export default router;

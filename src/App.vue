@@ -1,6 +1,5 @@
 <script setup>
 import "./styles/index.css";
-import "element-plus/dist/index.css";
 import "vue-sonner/style.css";
 import { Toaster } from "@/components/ui/sonner";
 </script>

@@ -5,9 +5,9 @@ const props = withDefaults(
     description: string;
     icon: string;
     target: number;
-    total: number;
-    duration: number;
-    decimals: number;
+    total?: number;
+    duration?: number;
+    decimals?: number;
   }>(),
   {
     target: 12345,

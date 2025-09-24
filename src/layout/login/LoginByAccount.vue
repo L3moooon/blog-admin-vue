@@ -18,7 +18,6 @@ import {
 import SlideCaptcha from "./subComponent/SlideCaptcha.vue";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useForm } from "vee-validate";
 import { EyeOff, Eye } from "lucide-vue-next";
@@ -26,68 +25,47 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { ref, onMounted, onUnmounted, shallowRef, watch } from "vue";
 
-const showType = defineModel<"account" | "mail" | "phone" | "forgetPassword">();
+import { useUserStore } from "@/store/user";
+const userStore = useUserStore();
+
+const showType = defineModel<
+  "account" | "mail" | "phone" | "forgetPassword" | "createCount"
+>();
 const showPassword = ref<boolean>(false);
 const formSchema = toTypedSchema(
   z.object({
     account: z
       .string()
-      .min(2, "简介至少需要2个字符")
-      .max(50, "简介不能超过50个字符")
+      .min(2, "账号至少需要2个字符")
+      .max(50, "账号不能超过50个字符")
       .nonempty("请输入账号"),
     password: z
       .string()
-      .min(2, "简介至少需要2个字符")
-      .max(50, "简介不能超过50个字符")
+      .min(2, "密码至少需要2个字符")
+      .max(50, "密码不能超过50个字符")
       .nonempty("请输入密码"),
+    captcha: z.boolean().refine((val) => val, "请完成滑块验证"),
   })
 );
-
-const form = useForm({});
-
-const onSubmit = form.handleSubmit(async (values) => {
-  console.log("Form submitted!", values);
-});
-// 定义表单数据类型
-// interface FormValues {
-//   name: string;
-//   email: string;
-//   age: string;
-// }
-
 // 初始化表单
-// 初始化vee-validate表单
-const { values, errors, handleSubmit, isSubmitting } = useForm({
+const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     account: "",
     password: "",
+    captcha: false, // 滑块验证初始值（未通过）
   },
 });
 
-// const toolbar = DomEditor.getToolbar(editor);
-onMounted(() => {
-  // console.log("editorRef", editor  Ref);
+const onSubmit = form.handleSubmit(async (values) => {
+  console.log("Form submitted!", values);
+  await userStore.login({
+    type: "account",
+    account: values.account,
+    password: values.password,
+  });
 });
-
-//提交
-// const submitArticle = async () => {
-//   const { status } = await addOrEditArticle({
-//     id: form.id,
-//     title: form.title,
-//     cover_img: form.cover_img,
-//     abstract: form.abstract,
-//     content: form.content,
-//     status: form.status,
-//     tag: form.chooseTag,
-//   });
-//   if (status == 1) {
-//     ElMessage.success("提交成功");
-//     emits("Update:showArticleDialog", false);
-//   } else {
-//     ElMessage.error("提交失败");
-//   }
-// };
+onMounted(() => {});
 </script>
 
 <template>
@@ -103,7 +81,7 @@ onMounted(() => {
         alt="" />
     </CardHeader>
     <CardContent>
-      <Form>
+      <form @submit="onSubmit">
         <FormField
           v-slot="{ componentField }"
           name="account">
@@ -173,11 +151,13 @@ onMounted(() => {
             忘记密码?
           </div>
         </div>
-      </Form>
+      </form>
     </CardContent>
     <CardFooter class="block px-6">
       <div class="mb-5">
-        <Button class="w-full bg-blue-500 text-white hover:bg-blue-600">
+        <Button
+          @click="onSubmit"
+          class="w-full bg-blue-500 text-white hover:bg-blue-600">
           登录
         </Button>
       </div>
@@ -194,14 +174,14 @@ onMounted(() => {
         </Button>
       </div>
       <div>
-        <p class="text-center text-sm text-gray-500 mt-4">
+        <div class="text-center text-sm text-gray-500 mt-4">
           还没有账号?
           <span
-            @click="createAccount"
+            @click="showType = 'createCount'"
             class="text-blue-500 hover:text-blue-600 cursor-pointer">
             创建新账号
           </span>
-        </p>
+        </div>
       </div>
     </CardFooter>
   </Card>

@@ -2,9 +2,8 @@
 import { onMounted, ref, reactive, nextTick } from "vue";
 import {
   getArticleList,
-  changeArticleStatus,
-  changeArticleTop,
-  delArticle as del,
+  updateArticle,
+  deleteArticle as del,
   getAllTag,
   addTag,
   delTag,
@@ -45,7 +44,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { BookPlus, Tag } from "lucide-vue-next";
 import { Switch } from "@/components/ui/switch";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 
 const articleList = ref();
 const showArticleDialog = ref<boolean>(false);
@@ -155,7 +154,36 @@ const handleChangeTop = async (row: ArticleItem) => {
     toast.success("操作成功");
   }
 };
+const handleUpdateArticle = async (
+  row: ArticleItem, // 当前操作的文章行数据
+  field: "top" | "status", // 要更新的字段名（明确字段类型，避免传错）
+  targetValue: boolean
+) => {
+  // 1. 保存原始值（用于接口失败时回滚）
+  const originalValue = row[field];
+  try {
+    // 2. 调用统一的更新接口（假设你的updateArticle接口支持动态传字段，若不支持可调整）
+    const { code, msg } = await updateArticle({
+      id: row.id, // 文章ID（必传）
+      [field]: targetValue, // 动态字段：字段名=目标值（比如{id: 1, top: true}）
+    });
 
+    // 3. 处理成功场景
+    if (code === 1) {
+      toast.success(`${field === "top" ? "置顶" : "显示状态"}更新成功`);
+      row[field] = targetValue; // 接口成功后，再更新前端状态
+    } else {
+      // 4. 处理接口返回的失败（比如权限不足、参数错误）
+      toast.error(msg || `${field === "top" ? "置顶" : "显示状态"}更新失败`);
+      // 回滚前端状态（避免与后端不一致）
+      row[field] = originalValue;
+    }
+  } catch (error) {
+    // 5. 处理网络异常、接口报错等意外情况
+    toast.error("网络异常，请稍后重试");
+    row[field] = originalValue; // 回滚状态
+  }
+};
 //编辑文章
 const handleEditArticle = (row: ArticleItem) => {
   showArticleDialog.value = true;
@@ -207,19 +235,15 @@ const handleClose = async (id) => {
 };
 //获取文章列表
 const getArticle = async () => {
-  console.log({
-    pageNo: pagination_info.pageNo,
-    pageSize: pagination_info.pageSize,
+  const { data, code, pagination } = await getArticleList({
     dateRange: dateRange.value,
     searchKey: searchKey.value,
+    pagination: {
+      pageNo: pagination_info.pageNo,
+      pageSize: pagination_info.pageSize,
+    },
   });
-  const { data, status, pagination } = await getArticleList({
-    pageNo: pagination_info.pageNo,
-    pageSize: pagination_info.pageSize,
-    dateRange: dateRange.value,
-    searchKey: searchKey.value,
-  });
-  if (status == 1) {
+  if (code == 1) {
     console.log(data);
     articleList.value = data;
     Object.assign(pagination, pagination);
@@ -313,13 +337,15 @@ onMounted(() => {
             class="cursor-pointer"
             name="top"
             :model-value="!row.status"
-            @update:model-value="handleChangeStatus(row)">
+            @update:model-value="
+              handleUpdateArticle(row, 'status', row.status)
+            ">
           </Switch>
           <Label>展示</Label>
           <Switch
             class="cursor-pointer"
             :model-value="!row.top"
-            @update:model-value="handleChangeTop(row)">
+            @update:model-value="handleUpdateArticle(row, 'top', row.top)">
           </Switch>
           <button
             class="text-blue-600 hover:text-blue-800 cursor-pointer"

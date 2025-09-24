@@ -1,9 +1,11 @@
-import { defineStore } from "pinia";
 import router from "@/router/index";
+import { defineStore } from "pinia";
 import { asyncRoutes, publicRoutes, anyRoutes } from "../router/routes";
-import { login as userLogin } from "@/api/user";
-import { ElMessage } from "element-plus";
-import { cloneDeep } from "lodash-es";
+import type { RouteRecordRaw } from "vue-router";
+import { login as userLogin } from "@/api/login";
+import type { LoginRequest } from "@/api/login/type";
+import { toast } from "vue-sonner";
+import { cloneDeep } from "lodash";
 
 interface UserStore {
   user: {
@@ -15,17 +17,7 @@ interface UserStore {
     };
   };
   token: string;
-  menuList: [
-    name: string,
-    path: string,
-    redirect?: string,
-    component?: any,
-    meta?: {
-      title: string;
-      icon?: string;
-      hidden?: boolean;
-    }
-  ];
+  menuList: RouteRecordRaw[];
 }
 
 const initialToken = "";
@@ -37,43 +29,31 @@ const initialUser = {
     buttonKeys: [],
   },
 };
-const loadFromLocal = (key: string) => {
-  const stored = localStorage.getItem(key);
-  return stored ? JSON.parse(stored) : null;
-};
-const saveToLocal = (key: string, state: string) => {
-  localStorage.setItem(key, JSON.stringify(state));
-};
-const removeFromLocal = (key: string) => {
-  localStorage.removeItem(key);
-};
 
 export const useUserStore = defineStore("User", {
   state: (): UserStore => {
     return {
-      user: loadFromLocal("user") || initialUser,
-      token: loadFromLocal("token") || initialToken,
+      user: initialUser,
+      token: initialToken,
       menuList: [],
     };
   },
   actions: {
-    async login(account: string, password: string) {
+    async login(data: LoginRequest) {
       try {
-        const { status, user, token } = await userLogin({ account, password });
-        if (status == 1) {
+        const { code, user, token } = await userLogin(data);
+        console.log(11111);
+        if (code == 1) {
           this.token = token;
           this.user = user;
-          saveToLocal("user", user);
-          saveToLocal("token", token);
-          this.generateRoutes();
+          await this.generateRoutes();
           router.push("/");
-          ElMessage.success("登录成功");
+          toast.success("登录成功");
         } else {
-          ElMessage.error("登录失败，请检查账号密码");
+          toast.error("登录失败，请检查账号密码");
         }
       } catch (error) {
-        ElMessage.error("登录请求失败，请稍后重试");
-        console.error("登录异常：", error);
+        toast.error("登录请求失败，请稍后重试");
       }
     },
 
@@ -81,19 +61,17 @@ export const useUserStore = defineStore("User", {
     logout() {
       this.token = initialToken;
       this.user = initialUser;
-      removeFromLocal("token");
-      removeFromLocal("user");
+      this.menuList = [];
       router.push("/login");
-      ElMessage.success("已退出登录");
+      toast.success("已退出登录");
     },
     generateRoutes() {
       return new Promise((resolve) => {
         const routeKeys = this.user.permissions.routeKeys;
-        const accessedRoutes: Array<string> = [];
+        const accessedRoutes: Array<RouteRecordRaw> = [];
         const routesCopy = cloneDeep(asyncRoutes);
         routesCopy.forEach((route) => {
           if (routeKeys.includes(route.path)) {
-            // 处理子路由
             if (route.children && route.children.length > 0) {
               route.children = route.children.filter((child) =>
                 routeKeys.includes(child.path)
@@ -104,13 +82,15 @@ export const useUserStore = defineStore("User", {
         });
         this.menuList = [...publicRoutes, ...accessedRoutes]; //将路由合并加入菜单
         // 动态添加路由
-        console.log(this.menuList);
         [...accessedRoutes, ...anyRoutes].forEach((route) => {
           router.addRoute(route);
         });
-        console.log(router.getRoutes());
-        resolve();
+        resolve(this.menuList);
       });
     },
+  },
+  persist: {
+    storage: localStorage, // 存储方式：localStorage（默认）或 sessionStorage
+    pick: ["token", "user"], // 只持久化这两个字段，menuList 不持久化
   },
 });
