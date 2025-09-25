@@ -14,7 +14,6 @@ const request: AxiosInstance = axios.create({
 request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   //获取token，登录成功以后携带给服务器
   const token = useUserStore().token;
-  console.log(token);
   if (token) {
     //辅助判断Token是否过期
     const payload = JSON.parse(atob(token.split(".")[1])); // 解析 token 的 payload

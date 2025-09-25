@@ -4,6 +4,7 @@ export interface LoginRequest {
   account?: string;
   password?: string;
   tel?: string;
+  email?: string;
   captcha?: string;
 }
 //登录响应
@@ -30,4 +31,8 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   code: number;
   msg?: string;
+}
+//邮箱验证码请求
+export interface EmailCaptchaRequest {
+  email: string | undefined;
 }

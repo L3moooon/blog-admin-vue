@@ -1,6 +1,6 @@
 export default {
   //加载动画
-  mounted(el, binding) {
+  mounted(el: HTMLElement, binding) {
     const spinner = document.createElement("div");
     spinner.className = "loading-spinner";
     const style = document.createElement("style");

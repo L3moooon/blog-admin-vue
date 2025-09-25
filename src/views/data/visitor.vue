@@ -9,7 +9,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { onMounted, ref } from "vue";
-import { getList } from "/src/api/visitor";
+import { getList } from "@/api/data/visitor";
 const userData = ref();
 const customColumns = [
   {

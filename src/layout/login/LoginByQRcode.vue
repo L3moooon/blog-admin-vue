@@ -93,14 +93,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card class="w-full px-[15%] py-[10%] opacity-90">
+  <Card class="w-full px-[15%] py-[10%] opacity-90 absolute left-0 top-0">
     <CardHeader class="relative">
       <CardTitle class="text-4xl font-bold flex items-center">
         欢迎回来
       </CardTitle>
       <CardDescription>请使用手机扫描二维码登录</CardDescription>
       <img
-        class="w-24 absolute top-0 right-4"
+        class="w-21 absolute top-0 right-4"
         src="@/assets/images/phone.png"
         alt="" />
     </CardHeader>
@@ -118,7 +118,7 @@ onMounted(() => {
     <CardFooter class="block px-6">
       <div class="mb-5">
         <Button
-          class="w-full"
+          class="w-full cursor-pointer"
           variant="outline"
           @click="showType = 'account'">
           返回

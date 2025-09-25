@@ -4,7 +4,7 @@ import {
   getArticleList,
   updateArticle,
   deleteArticle as del,
-  getAllTag,
+  getTagList,
   addTag,
   delTag,
 } from "@/api/control/article";
@@ -251,7 +251,7 @@ const getArticle = async () => {
 };
 const debouncedGetArticle = debounce(getArticle, 800);
 const getTag = async () => {
-  const { data } = await getAllTag();
+  const { data } = await getTagList();
   tagList.value = data;
   console.log(tagList.value);
 };

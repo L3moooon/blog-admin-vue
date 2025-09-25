@@ -19,7 +19,7 @@ import SlideCaptcha from "./subComponent/SlideCaptcha.vue";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useForm } from "vee-validate";
+import { useForm, useField } from "vee-validate";
 import { EyeOff, Eye } from "lucide-vue-next";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -34,16 +34,8 @@ const showType = defineModel<
 const showPassword = ref<boolean>(false);
 const formSchema = toTypedSchema(
   z.object({
-    account: z
-      .string()
-      .min(2, "账号至少需要2个字符")
-      .max(50, "账号不能超过50个字符")
-      .nonempty("请输入账号"),
-    password: z
-      .string()
-      .min(2, "密码至少需要2个字符")
-      .max(50, "密码不能超过50个字符")
-      .nonempty("请输入密码"),
+    account: z.string().nonempty("账号不能为空"),
+    password: z.string().nonempty("密码不能为空"),
     captcha: z.boolean().refine((val) => val, "请完成滑块验证"),
   })
 );
@@ -56,7 +48,9 @@ const form = useForm({
     captcha: false, // 滑块验证初始值（未通过）
   },
 });
-
+const handleRememberAccount = () => {
+  console.log("记住账号");
+};
 const onSubmit = form.handleSubmit(async (values) => {
   console.log("Form submitted!", values);
   await userStore.login({
@@ -64,12 +58,12 @@ const onSubmit = form.handleSubmit(async (values) => {
     account: values.account,
     password: values.password,
   });
+  form.handleReset();
 });
-onMounted(() => {});
 </script>
 
 <template>
-  <Card class="w-full px-[15%] py-[10%] opacity-90">
+  <Card class="w-full px-[15%] py-[10%] opacity-90 absolute left-0 top-0">
     <CardHeader class="relative">
       <CardTitle class="text-4xl font-bold flex items-center">
         欢迎回来
@@ -85,65 +79,68 @@ onMounted(() => {});
         <FormField
           v-slot="{ componentField }"
           name="account">
-          <FormItem class="mt-2">
+          <FormItem class="mt-2 relative">
             <FormLabel>账号</FormLabel>
+            <FormMessage class="absolute top-0 right-0" />
             <FormControl>
               <Input
                 placeholder="请输入账号..."
                 v-bind="componentField" />
             </FormControl>
             <FormDescription />
-            <FormMessage />
           </FormItem>
         </FormField>
         <FormField
           v-slot="{ componentField }"
           name="password">
-          <FormItem class="mt-2">
+          <FormItem class="mt-2 relative">
             <FormLabel>密码</FormLabel>
-            <FormControl>
-              <div class="relative w-full">
-                <Input
-                  id="search"
-                  :type="showPassword ? 'text' : 'password'"
-                  placeholder="请输入密码..."
-                  v-bind="componentField"
-                  class="w-full pr-10" />
-                <span
-                  class="absolute end-0 inset-y-0 flex items-center justify-center px-2">
-                  <Eye
-                    v-if="showPassword"
-                    @click="showPassword = false"
-                    class="size-5 text-muted-foreground cursor-pointer" />
-                  <EyeOff
-                    v-else
-                    @click="showPassword = true"
-                    class="size-5 text-muted-foreground cursor-pointer" />
-                </span>
-              </div>
+            <FormMessage class="absolute top-0 right-0" />
+            <FormControl class="relative w-full">
+              <Input
+                id="search"
+                :type="showPassword ? 'text' : 'password'"
+                placeholder="请输入密码..."
+                v-bind="componentField"
+                class="w-full pr-10" />
+              <span
+                class="absolute right-0 top-7.5 flex items-center justify-center px-2">
+                <Eye
+                  v-if="showPassword"
+                  @click="showPassword = false"
+                  class="size-5 text-muted-foreground cursor-pointer" />
+                <EyeOff
+                  v-else
+                  @click="showPassword = true"
+                  class="size-5 text-muted-foreground cursor-pointer" />
+              </span>
             </FormControl>
             <FormDescription />
-            <FormMessage />
           </FormItem>
         </FormField>
         <!-- 滑块验证 -->
         <FormField
           v-slot="{ componentField }"
-          name="password">
-          <FormItem class="mt-2">
+          name="captcha">
+          <FormItem class="mt-2 relative">
+            <FormLabel>滑块验证</FormLabel>
+            <FormMessage class="absolute top-0 right-0" />
             <FormControl>
               <SlideCaptcha />
             </FormControl>
             <FormDescription />
-            <FormMessage />
           </FormItem>
         </FormField>
         <div class="flex justify-between">
-          <div class="flex items-center space-x-2">
-            <Checkbox id="terms" />
+          <div
+            class="flex items-center space-x-2"
+            @click="handleRememberAccount">
+            <Checkbox
+              class="cursor-pointer"
+              id="terms" />
             <label
               for="terms"
-              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
               记住账号
             </label>
           </div>
@@ -157,18 +154,20 @@ onMounted(() => {});
       <div class="mb-5">
         <Button
           @click="onSubmit"
-          class="w-full bg-blue-500 text-white hover:bg-blue-600">
+          class="w-full bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">
           登录
         </Button>
       </div>
       <div class="grid grid-cols-2 gap-5">
         <Button
           variant="outline"
+          class="cursor-pointer"
           @click="showType = 'mail'">
           邮箱登录
         </Button>
         <Button
           variant="outline"
+          class="cursor-pointer"
           @click="showType = 'phone'">
           手机登录
         </Button>

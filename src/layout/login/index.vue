@@ -15,7 +15,7 @@ onMounted(() => {});
 <template>
   <div
     class="w-screen h-screen bg-[url('@/assets/images/background.png')] bg-cover flex justify-center items-center">
-    <div class="aspect-[4/3] w-2/5">
+    <div class="aspect-[4/3] w-2/5 relative">
       <transition-group
         name="fade"
         tag="div">

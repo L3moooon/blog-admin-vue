@@ -18,6 +18,14 @@ import {
   LaptopMinimalCheck,
   SquareUserRound,
 } from "lucide-vue-next";
+import type { LucideIcon } from "lucide-vue-next";
+
+declare module "vue-router" {
+  interface RouteMeta {
+    showInTabs: boolean;
+    icon?: LucideIcon;
+  }
+}
 
 export const asyncRoutes: RouteRecordRaw[] = [
   {
@@ -178,7 +186,7 @@ export const publicRoutes: RouteRecordRaw[] = [
       {
         name: "工作台",
         path: "/workplace",
-        component: () => import("@/views/overview/workplace.vue"),
+        component: () => import("@/views/overview/workplace/index.vue"),
         meta: {
           showInTabs: true,
           icon: LaptopMinimalCheck,

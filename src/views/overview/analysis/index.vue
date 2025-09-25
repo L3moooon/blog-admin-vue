@@ -1,7 +1,6 @@
 <script setup>
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 import ScrollNumber from "./scrollNumber.vue";
 import ViewTrend from "./ViewTrend.vue";
 import MonthView from "./MonthView.vue";

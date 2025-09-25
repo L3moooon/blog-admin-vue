@@ -1,12 +1,20 @@
 import { defineStore } from "pinia";
+import type { LucideIcon } from "lucide-vue-next";
 
-interface Tab {
-  tabList: Array<string>;
+interface TabItem {
+  path: string;
+  name: string | symbol | undefined;
+  icon: LucideIcon | undefined;
+  key: string;
+}
+interface TabStore {
+  tabList: Array<TabItem>;
   activeKey: string;
   fixedTabs: Array<string>;
 }
+
 export const useTabsStore = defineStore("tabs", {
-  state: (): Tab => {
+  state: (): TabStore => {
     return {
       tabList: [], // 标签页列表
       activeKey: "", // 当前激活的标签
@@ -15,7 +23,7 @@ export const useTabsStore = defineStore("tabs", {
   },
   actions: {
     // 添加标签页
-    addTab(tab: string) {
+    addTab(tab: TabItem) {
       // 避免重复添加
       if (!this.tabList.some((item) => item.path === tab.path)) {
         this.tabList.push(tab);
@@ -41,8 +49,8 @@ export const useTabsStore = defineStore("tabs", {
   },
   // 持久化配置
   persist: {
-    key: "tabs-state", // 存储的键名，默认是 store 的 id
-    storage: localStorage, // 存储方式，可选 localStorage (默认) 或 sessionStorage
-    paths: ["tabsList", "activeKey"], // 需要持久化的状态字段，默认全部持久化
+    // key: "tabs-state", // 存储的键名，默认是 store 的 id
+    storage: sessionStorage, // 存储方式，可选 localStorage (默认) 或 sessionStorage
+    pick: ["tabsList", "activeKey"], // 需要持久化的状态字段，默认全部持久化
   },
 });

@@ -42,7 +42,6 @@ export const useUserStore = defineStore("User", {
     async login(data: LoginRequest) {
       try {
         const { code, user, token } = await userLogin(data);
-        console.log(11111);
         if (code == 1) {
           this.token = token;
           this.user = user;
