@@ -11,13 +11,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-// import type { SidebarProps } from "@/components/ui/sidebar";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-
+import { iconComponentMap } from "@/utils/routeIcon";
 import { useUserStore } from "../../store/user";
 import { useRouter } from "vue-router";
 
@@ -43,7 +42,7 @@ const handlerJump = (path: string) => {
         <SidebarGroupContent>
           <template v-for="item in userStore.menuList">
             <Collapsible
-              v-show="item.meta.showInTabs"
+              v-show="item.meta?.showInTabs"
               defaultOpen
               class="group/collapsible">
               <SidebarGroup class="pt-0 px-0">
@@ -53,7 +52,7 @@ const handlerJump = (path: string) => {
                       class="flex items-center h-8 text-18 cursor-pointer"
                       asChild>
                       <template>
-                        <component :is="item.meta.icon" />
+                        <component :is="iconComponentMap[item.meta.icon]" />
                         {{ item.name }}
                         <ChevronDown
                           class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
@@ -64,13 +63,14 @@ const handlerJump = (path: string) => {
                     <SidebarMenu>
                       <SidebarMenuItem
                         v-for="child in item.children"
-                        :key="child.title">
+                        :key="child.path">
                         <SidebarMenuButton
                           class="!pl-10 flex items-center h-8 cursor-pointer"
                           asChild
                           @click="handlerJump(child.path)">
                           <template>
-                            <component :is="child.meta.icon" />
+                            <component
+                              :is="iconComponentMap[child.meta.icon]" />
                             <span>{{ child.name }}</span>
                           </template>
                         </SidebarMenuButton>

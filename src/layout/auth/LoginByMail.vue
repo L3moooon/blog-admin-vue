@@ -27,7 +27,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { toast } from "vue-sonner";
 import * as z from "zod";
 import { ref, onMounted, onUnmounted, watch } from "vue";
-import { getEmailCaptcha } from "@/api/login";
+import { getEmailCaptcha } from "@/api/auth";
 import { useUserStore } from "@/store/user";
 const userStore = useUserStore();
 const showType = defineModel<"account" | "mail" | "phone" | "forgetPassword">();
@@ -40,7 +40,6 @@ const formSchema = toTypedSchema(
       .nonempty("验证码为空"), // 数组非空校验
   })
 );
-// const { handleBlur, handleChange } = useField("email");
 // 初始化表单
 const form = useForm({
   validationSchema: formSchema,

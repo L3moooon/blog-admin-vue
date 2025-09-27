@@ -30,6 +30,7 @@ import {
   ArrowRightLeft,
   FoldHorizontal,
 } from "lucide-vue-next";
+import { iconComponentMap } from "@/utils/routeIcon";
 
 const tabsStore = useTabsStore();
 const router = useRouter();
@@ -106,7 +107,7 @@ const handleCloseAllTabs = () => {
               class="w-30 border-r-gray-200 h-full flex border-b-2 border-transparent justify-center items-center cursor-pointer text-sm text-black/50 transition-all data-[state=active]:bg-blue-100 data-[state=active]:border-b-blue-400 data-[state=active]:text-blue-400 select-none hover:bg-gray-100 relative"
               @click="changeTab(tab.path)">
               <component
-                :is="tab.icon"
+                :is="iconComponentMap[tab.icon]"
                 :color="tabsStore.activeKey == tab.path ? '#51a2ff' : '#737373'"
                 class="size-4"></component>
               <div class="mx-2">

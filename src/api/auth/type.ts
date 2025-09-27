@@ -1,3 +1,5 @@
+import { CommonResponse } from "@/api/type";
+
 //登录请求
 export interface LoginRequest {
   type: "account" | "email" | "phone";
@@ -8,14 +10,12 @@ export interface LoginRequest {
   captcha?: string;
 }
 //登录响应
-export interface LoginResponse {
-  code: number;
-  msg?: string;
+export interface LoginResponse extends CommonResponse {
   token: string;
   user: {
     name: string;
     permissions: {
-      routeKeys: Array<string>;
+      routeKey: Array<string>;
       componentKeys?: Array<string>;
       buttonKeys?: Array<string>;
     };
@@ -27,11 +27,7 @@ export interface RegisterRequest {
   account: string;
   password: string;
 }
-//注册响应
-export interface RegisterResponse {
-  code: number;
-  msg?: string;
-}
+
 //邮箱验证码请求
 export interface EmailCaptchaRequest {
   email: string | undefined;

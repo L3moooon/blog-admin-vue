@@ -4,11 +4,8 @@ import {
   getAdminList,
   // changeUserStatus,
   // deleteUser,
-} from "@/api/control/administrator/index";
-import type {
-  UserItem,
-  PaginationData,
-} from "@/api/control/administrator/type";
+} from "@/api/control/user/index";
+import type { UserItem, PaginationData } from "@/api/control/user/type";
 import MyTable from "@/components/table/MyTable.vue";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";

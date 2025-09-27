@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import { ChevronsRight, Check } from "lucide-vue-next";
 
+const isVerified = defineModel();
 const containerRef = ref<HTMLElement | null>(null);
 const btnRef = ref<HTMLElement | null>(null);
 const progress = ref(0);
 const maxProgress = ref(100);
 const isDragging = ref(false);
-const isVerified = ref(false);
+// const isVerified = ref(false);
+watch(
+  () => isVerified.value,
+  (val) => {
+    if (!val) {
+      progress.value = 0;
+    }
+  }
+);
 let startX = 0;
 let initialProgress = 0;
 const startDrag = (event: MouseEvent | TouchEvent) => {

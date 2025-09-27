@@ -1,17 +1,5 @@
 import { defineStore } from "pinia";
-import type { LucideIcon } from "lucide-vue-next";
-
-interface TabItem {
-  path: string;
-  name: string | symbol | undefined;
-  icon: LucideIcon | undefined;
-  key: string;
-}
-interface TabStore {
-  tabList: Array<TabItem>;
-  activeKey: string;
-  fixedTabs: Array<string>;
-}
+import type { TabItem, TabStore } from "./type";
 
 export const useTabsStore = defineStore("tabs", {
   state: (): TabStore => {
@@ -51,6 +39,6 @@ export const useTabsStore = defineStore("tabs", {
   persist: {
     // key: "tabs-state", // 存储的键名，默认是 store 的 id
     storage: sessionStorage, // 存储方式，可选 localStorage (默认) 或 sessionStorage
-    pick: ["tabsList", "activeKey"], // 需要持久化的状态字段，默认全部持久化
+    // pick: ["tabList", "activeKey"], // 需要持久化的状态字段，默认全部持久化
   },
 });

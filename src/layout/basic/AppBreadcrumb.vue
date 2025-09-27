@@ -8,11 +8,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useRoute } from "vue-router";
+import { iconComponentMap } from "@/utils/routeIcon";
+
 const route = useRoute();
 </script>
 <template>
-  <!-- <LayoutDashboard
-    class="mr-2 size-5 hover:text-foreground transition-colors" /> -->
   <Breadcrumb>
     <BreadcrumbList>
       <template
@@ -23,7 +23,7 @@ const route = useRoute();
             :href="item.path"
             class="flex items-center">
             <component
-              :is="item.meta.icon"
+              :is="iconComponentMap[item.meta.icon]"
               class="size-5 mr-2" />
             {{ item.name }}
           </BreadcrumbLink>

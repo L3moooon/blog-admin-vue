@@ -5,6 +5,9 @@ import { Toaster } from "@/components/ui/sonner";
 </script>
 
 <template>
-  <Toaster />
+  <Toaster
+    position="top-right"
+    :expand="true"
+    richColors />
   <router-view></router-view>
 </template>

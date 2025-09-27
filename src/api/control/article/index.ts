@@ -1,46 +1,43 @@
 import request from "@/utils/request";
-import type {
-  CommonResponse,
-  ArticleListRequest,
-  ArticleListResponse,
-  AddArticleRequest,
-  UpgradeArticleRequest,
-  TagListResponse,
+import type { CommonResponse, CommonListRequest } from "@/api/type";
+import {
+	ArticleListResponse,
+	AddArticleRequest,
+	UpgradeArticleRequest,
+	TagListResponse,
+	AddTagRequest,
 } from "@/api/control/article/type";
 
 enum API {
-  GET_ARTICLE = "/admin/article/getArticleList", //获取文章列表
-  ADD_ARTICLE = "/admin/article/addArticle", //新增文章
-  UPDATE_ARTICLE = "/admin/article/updateArticle", //修改文章
-  DELETE_ARTICLE = "/admin/article/deleteArticle", //删除文章
-  GET_TAG = "/admin/article/getTagList", //获取标签列表
-  ADD_TAG = "/admin/article/addTag", //新增标签
-  UPDATE_TAG = "/admin/article/updateTag", //修改标签
-  DELETE_TAG = "/admin/article/deleteTag", //删除标签
+	GET_ARTICLE = "/admin/article/getArticleList", //获取文章列表
+	ADD_ARTICLE = "/admin/article/addArticle", //新增文章
+	UPDATE_ARTICLE = "/admin/article/updateArticle", //修改文章
+	DELETE_ARTICLE = "/admin/article/deleteArticle", //删除文章
+	GET_TAG = "/admin/article/getTagList", //获取标签列表
+	ADD_TAG = "/admin/article/addTag", //新增标签
+	UPDATE_TAG = "/admin/article/updateTag", //修改标签
+	DELETE_TAG = "/admin/article/deleteTag", //删除标签
 }
 
 export const getArticleList = (
-  params: ArticleListRequest
+	params: CommonListRequest
 ): Promise<ArticleListResponse> => request.get(API.GET_ARTICLE, { params });
 
 export const addArticle = (data: AddArticleRequest): Promise<CommonResponse> =>
-  request.post(API.ADD_ARTICLE, data);
+	request.post(API.ADD_ARTICLE, data);
 
 export const updateArticle = (
-  data: UpgradeArticleRequest
+	data: Partial<UpgradeArticleRequest>
 ): Promise<CommonResponse> => request.patch(API.UPDATE_ARTICLE, data);
 
-export const deleteArticle = (params: number): Promise<CommonResponse> =>
-  request.delete(API.DELETE_ARTICLE, { params });
+export const deleteArticle = (id: number): Promise<CommonResponse> =>
+	request.delete(`${API.DELETE_ARTICLE}/${id}`);
 
 export const getTagList = (): Promise<TagListResponse> =>
-  request.get(API.GET_TAG);
+	request.get(API.GET_TAG);
 
-export const addTag = (data): Promise<CommonResponse> =>
-  request.post(API.ADD_TAG);
+export const addTag = (data: AddTagRequest): Promise<CommonResponse> =>
+	request.post(API.ADD_TAG, data);
 
-export const updateTag = (): Promise<CommonResponse> =>
-  request.patch(API.UPDATE_TAG);
-
-export const delTag = (params: number): Promise<CommonResponse> =>
-  request.delete(API.DELETE_TAG, { params });
+export const delTag = (id: number): Promise<CommonResponse> =>
+	request.delete(`${API.DELETE_TAG}/${id}`);

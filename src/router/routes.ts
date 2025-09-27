@@ -1,29 +1,9 @@
 import type { RouteRecordRaw } from "vue-router";
-import {
-  LayoutDashboard,
-  ChartLine,
-  KeyRound,
-  Cctv,
-  Handshake,
-  IdCard,
-  NotebookText,
-  Music4,
-  Castle,
-  Crosshair,
-  Rocket,
-  MessageSquareQuote,
-  Database,
-  Settings2,
-  Settings,
-  LaptopMinimalCheck,
-  SquareUserRound,
-} from "lucide-vue-next";
-import type { LucideIcon } from "lucide-vue-next";
 
 declare module "vue-router" {
   interface RouteMeta {
     showInTabs: boolean;
-    icon?: LucideIcon;
+    icon?: string;
   }
 }
 
@@ -35,7 +15,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     component: () => import("@/layout/basic/index.vue"),
     meta: {
       showInTabs: true,
-      icon: Database,
+      icon: "Database",
     },
     children: [
       {
@@ -44,7 +24,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data/visitor.vue"),
         meta: {
           showInTabs: true,
-          icon: IdCard,
+          icon: "IdCard",
         },
       },
       {
@@ -53,7 +33,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data/buried.vue"),
         meta: {
           showInTabs: true,
-          icon: Crosshair,
+          icon: "Crosshair",
         },
       },
       {
@@ -62,7 +42,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data/performance.vue"),
         meta: {
           showInTabs: true,
-          icon: Rocket,
+          icon: "Rocket",
         },
       },
       {
@@ -71,7 +51,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data/errorLog.vue"),
         meta: {
           showInTabs: true,
-          icon: Cctv,
+          icon: "Cctv",
         },
       },
     ],
@@ -82,16 +62,16 @@ export const asyncRoutes: RouteRecordRaw[] = [
     component: () => import("@/layout/basic/index.vue"),
     meta: {
       showInTabs: true,
-      icon: Settings2,
+      icon: "Settings2",
     },
     children: [
       {
         name: "用户管理",
         path: "/control/user",
-        component: () => import("@/views/control/administrator/index.vue"),
+        component: () => import("@/views/control/user/index.vue"),
         meta: {
           showInTabs: true,
-          icon: SquareUserRound,
+          icon: "SquareUserRound",
         },
       },
       {
@@ -100,7 +80,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/control/role/index.vue"),
         meta: {
           showInTabs: true,
-          icon: KeyRound,
+          icon: "KeyRound",
         },
       },
       {
@@ -109,7 +89,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/control/article/index.vue"),
         meta: {
           showInTabs: true,
-          icon: NotebookText,
+          icon: "NotebookText",
         },
       },
       {
@@ -118,7 +98,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/control/comment/index.vue"),
         meta: {
           showInTabs: true,
-          icon: MessageSquareQuote,
+          icon: "MessageSquareQuote",
         },
       },
     ],
@@ -130,7 +110,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     component: () => import("@/layout/basic/index.vue"),
     meta: {
       showInTabs: true,
-      icon: Settings,
+      icon: "Settings",
     },
     children: [
       {
@@ -139,7 +119,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/setting/theme.vue"),
         meta: {
           showInTabs: true,
-          icon: Castle,
+          icon: "Castle",
         },
       },
       {
@@ -148,7 +128,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/setting/music.vue"),
         meta: {
           showInTabs: true,
-          icon: Music4,
+          icon: "Music4",
         },
       },
       {
@@ -157,7 +137,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/setting/friendship.vue"),
         meta: {
           showInTabs: true,
-          icon: Handshake,
+          icon: "Handshake",
         },
       },
     ],
@@ -171,7 +151,7 @@ export const publicRoutes: RouteRecordRaw[] = [
     component: () => import("@/layout/basic/index.vue"),
     meta: {
       showInTabs: true,
-      icon: LayoutDashboard,
+      icon: "LayoutDashboard",
     },
     children: [
       {
@@ -180,7 +160,7 @@ export const publicRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/overview/analysis/index.vue"),
         meta: {
           showInTabs: true,
-          icon: ChartLine,
+          icon: "ChartLine",
         },
       },
       {
@@ -189,14 +169,14 @@ export const publicRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/overview/workplace/index.vue"),
         meta: {
           showInTabs: true,
-          icon: LaptopMinimalCheck,
+          icon: "LaptopMinimalCheck",
         },
       },
     ],
   },
   {
     path: "/login",
-    component: () => import("@/layout/login/index.vue"),
+    component: () => import("@/layout/auth/index.vue"),
     meta: {
       showInTabs: false,
     },

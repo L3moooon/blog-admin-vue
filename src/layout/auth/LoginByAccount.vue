@@ -19,19 +19,30 @@ import SlideCaptcha from "./subComponent/SlideCaptcha.vue";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useForm, useField } from "vee-validate";
+import { useForm, useField, configure } from "vee-validate";
 import { EyeOff, Eye } from "lucide-vue-next";
 import { toTypedSchema } from "@vee-validate/zod";
-import * as z from "zod";
-import { ref, onMounted, onUnmounted, shallowRef, watch } from "vue";
-
+import { ref, onMounted, onUnmounted, shallowRef, watch, nextTick } from "vue";
 import { useUserStore } from "@/store/user";
+import * as z from "zod";
+import { login } from "@/api/auth";
+import { toast } from "vue-sonner";
+import router from "@/router/index";
+
 const userStore = useUserStore();
 
 const showType = defineModel<
   "account" | "mail" | "phone" | "forgetPassword" | "createCount"
 >();
 const showPassword = ref<boolean>(false);
+const captchaValidate = ref<boolean>(false);
+//全局表单验证trigger
+// configure({
+//   validateOnBlur: true,
+//   validateOnChange: false,
+//   validateOnInput: false,
+//   // validateOnModelUpdate: false,
+// });
 const formSchema = toTypedSchema(
   z.object({
     account: z.string().nonempty("账号不能为空"),
@@ -45,20 +56,42 @@ const form = useForm({
   initialValues: {
     account: "",
     password: "",
-    captcha: false, // 滑块验证初始值（未通过）
+    captcha: false,
   },
+});
+// 监听滑块验证状态变化，同步到表单
+watch(captchaValidate, (val) => {
+  form.setValues({ captcha: val });
+  // nextTick(() => {
+  //   form.setFieldError("captcha", undefined);
+  // });
+  // 验证滑块字段，更新错误状态
+  // form.validateField("captcha");
 });
 const handleRememberAccount = () => {
   console.log("记住账号");
 };
+//提交登录
 const onSubmit = form.handleSubmit(async (values) => {
   console.log("Form submitted!", values);
-  await userStore.login({
-    type: "account",
-    account: values.account,
-    password: values.password,
-  });
-  form.handleReset();
+  try {
+    const { code, user, token } = await login({
+      type: "account",
+      account: values.account,
+      password: values.password,
+    });
+    if (code == 1) {
+      userStore.saveUserInfo(user, token);
+      router.push("/");
+      toast.success("登录成功");
+    } else {
+      toast.error("登录失败，请检查账号密码");
+    }
+    captchaValidate.value = false;
+    form.handleReset();
+  } catch (error) {
+    toast.error("登录请求失败，请稍后重试");
+  }
 });
 </script>
 
@@ -126,7 +159,7 @@ const onSubmit = form.handleSubmit(async (values) => {
             <FormLabel>滑块验证</FormLabel>
             <FormMessage class="absolute top-0 right-0" />
             <FormControl>
-              <SlideCaptcha />
+              <SlideCaptcha v-model="captchaValidate" />
             </FormControl>
             <FormDescription />
           </FormItem>

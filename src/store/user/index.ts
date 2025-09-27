@@ -1,29 +1,15 @@
 import router from "@/router/index";
 import { defineStore } from "pinia";
-import { asyncRoutes, publicRoutes, anyRoutes } from "../router/routes";
-import type { RouteRecordRaw } from "vue-router";
-import { login as userLogin } from "@/api/login";
-import type { LoginRequest } from "@/api/login/type";
+import { asyncRoutes, publicRoutes, anyRoutes } from "@/router/routes";
 import { toast } from "vue-sonner";
 import { cloneDeep } from "lodash";
-
-interface UserStore {
-  user: {
-    name: string;
-    permissions: {
-      routeKeys: string[];
-      componentKeys?: string[];
-      buttonKeys?: string[];
-    };
-  };
-  token: string;
-  menuList: RouteRecordRaw[];
-}
+import type { RouteRecordRaw } from "vue-router";
+import type { User, UserStore } from "./type";
 
 const initialToken = "";
 const initialUser = {
   name: "",
-  permissions: {
+  permission: {
     routeKeys: [],
     componentKeys: [],
     buttonKeys: [],
@@ -39,21 +25,12 @@ export const useUserStore = defineStore("User", {
     };
   },
   actions: {
-    async login(data: LoginRequest) {
-      try {
-        const { code, user, token } = await userLogin(data);
-        if (code == 1) {
-          this.token = token;
-          this.user = user;
-          await this.generateRoutes();
-          router.push("/");
-          toast.success("登录成功");
-        } else {
-          toast.error("登录失败，请检查账号密码");
-        }
-      } catch (error) {
-        toast.error("登录请求失败，请稍后重试");
-      }
+    async saveUserInfo(user: User, token: string) {
+      console.log(user, token);
+      this.user = user;
+      this.token = token;
+      console.log(this.user, this.token);
+      await this.generateRoutes();
     },
 
     // 退出登录
@@ -66,7 +43,7 @@ export const useUserStore = defineStore("User", {
     },
     generateRoutes() {
       return new Promise((resolve) => {
-        const routeKeys = this.user.permissions.routeKeys;
+        const routeKeys = this.user.permission.routeKeys;
         const accessedRoutes: Array<RouteRecordRaw> = [];
         const routesCopy = cloneDeep(asyncRoutes);
         routesCopy.forEach((route) => {
