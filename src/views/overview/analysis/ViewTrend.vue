@@ -112,7 +112,6 @@ onMounted(() => {
   chartDom.value = document.getElementById("echarts-trend")!;
   myChart.value = echarts.init(chartDom.value);
   myChart.value.setOption(option);
-
   // 监听容器自身尺寸变化
   resizeObserver.value = new ResizeObserver((entries) => {
     // 容器尺寸变化时触发

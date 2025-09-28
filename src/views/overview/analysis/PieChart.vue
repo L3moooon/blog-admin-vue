@@ -8,44 +8,43 @@ const resizeObserver = ref<ResizeObserver | null>(null);
 const myChart = shallowRef<echarts.ECharts | null>(null);
 
 const option: EChartsOption = {
-  xAxis: {
-    type: "category",
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  legend: {
+    top: "bottom",
   },
-  yAxis: {
-    type: "value",
-  },
-  grid: {
-    left: "0%",
-    right: "3%",
-    top: "5%",
-    bottom: "0%",
-    containLabel: true,
-  },
+  // toolbox: {
+  //   show: true,
+  //   feature: {
+  //     mark: { show: true },
+  //     dataView: { show: true, readOnly: false },
+  //     restore: { show: true },
+  //     saveAsImage: { show: true },
+  //   },
+  // },
   series: [
     {
+      name: "Nightingale Chart",
+      type: "pie",
+      radius: [50, 250],
+      center: ["50%", "50%"],
+      roseType: "area",
+      itemStyle: {
+        borderRadius: 8,
+      },
       data: [
-        120,
-        {
-          value: 200,
-          itemStyle: {
-            color: "#505372",
-          },
-        },
-        150,
-        80,
-        70,
-        110,
-        130,
+        { value: 40, name: "rose 1" },
+        { value: 38, name: "rose 2" },
+        { value: 32, name: "rose 3" },
+        { value: 30, name: "rose 4" },
+        { value: 28, name: "rose 5" },
+        { value: 26, name: "rose 6" },
+        { value: 22, name: "rose 7" },
+        { value: 18, name: "rose 8" },
       ],
-      type: "bar",
-      coordinateSystem: "cartesian2d", // 显式指定坐标系
     },
   ],
 };
 onMounted(() => {
-  console.log(document.getElementById("echarts-month"));
-  chartDom.value = document.getElementById("echarts-month")!;
+  chartDom.value = document.getElementById("echarts-pie1")!;
   myChart.value = echarts.init(chartDom.value);
   myChart.value.setOption(option);
 
@@ -71,6 +70,6 @@ onUnmounted(() => {
 </script>
 <template>
   <div
-    id="echarts-month"
-    class="w-full h-105"></div>
+    id="echarts-pie1"
+    class="w-1/3 h-105"></div>
 </template>

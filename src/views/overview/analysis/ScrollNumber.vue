@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-42 rounded-sm border p-5">
+  <div class="h-32 rounded-sm border p-5">
     <div class="flex items-center justify-between mb-4">
       <h1 class="font-semibold text-primary text-lg">{{ title }}</h1>
       <slot name="icon"> </slot>

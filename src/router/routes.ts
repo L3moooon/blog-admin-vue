@@ -113,15 +113,15 @@ export const asyncRoutes: RouteRecordRaw[] = [
       icon: "Settings",
     },
     children: [
-      {
-        name: "主题设置",
-        path: "/setting/theme",
-        component: () => import("@/views/setting/theme.vue"),
-        meta: {
-          showInTabs: true,
-          icon: "Castle",
-        },
-      },
+      // {
+      //   name: "主题设置",
+      //   path: "/setting/theme",
+      //   component: () => import("@/views/setting/theme.vue"),
+      //   meta: {
+      //     showInTabs: true,
+      //     icon: "Castle",
+      //   },
+      // },
       {
         name: "音乐盒设置",
         path: "/setting/music",
