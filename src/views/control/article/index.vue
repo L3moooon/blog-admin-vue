@@ -36,7 +36,6 @@ import type {
   ArticleItem,
   AddArticleRequest,
   UpgradeArticleRequest,
-  PaginationData,
   TagItem,
   TagListResponse,
   ArticleListResponse,
@@ -87,7 +86,7 @@ const columns = [
     width: 100,
   },
   {
-    prop: "like",
+    prop: "star",
     label: "点赞量",
     sortable: true,
     width: 100,
@@ -109,13 +108,13 @@ const columns = [
 
 const dateRange = ref([]);
 const searchKey = ref("");
-const pagination_info = reactive<PaginationData>({
+const pagination_info = reactive({
   pageNo: 1,
   pageSize: 10,
   total: 0,
 });
 
-const articleList = ref();
+const articleList = ref<Array<ArticleItem>>([]);
 const tagList = ref<Array<TagItem>>([]);
 const showArticleDialog = ref<boolean>(false);
 const showTagDialog = ref<boolean>(false);
@@ -124,8 +123,8 @@ const rowInfo = ref<ArticleItem | null>(null);
 
 const handleUpdateArticle = async (
   row: ArticleItem, // 当前操作的文章行数据
-  field: "top" | "status", // 要更新的字段名（明确字段类型，避免传错）
-  targetValue: number
+  field: "top" | "status", // 要更新的字段名
+  targetValue: boolean
 ) => {
   const originalValue = row[field];
   try {
@@ -233,7 +232,7 @@ onMounted(() => {
         <div v-if="value">
           <img
             class="w-20 h-12 object-cover rounded"
-            :src="value"
+            :src="value as string"
             alt="" />
         </div>
         <div v-else>暂无封面</div>

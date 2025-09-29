@@ -2,10 +2,10 @@
 const props = withDefaults(
   defineProps<{
     title: string;
-    description: string;
-    icon: string;
     target: number;
     total?: number;
+    subText?: string;
+    subNumber?: number;
     duration?: number;
     decimals?: number;
   }>(),
@@ -33,14 +33,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-32 rounded-sm border p-5">
-    <div class="flex items-center justify-between mb-4">
+  <div class="h-32 rounded-sm border p-4">
+    <div class="flex items-center justify-between mb-2">
       <h1 class="font-semibold text-primary text-lg">{{ title }}</h1>
       <slot name="icon"> </slot>
     </div>
-    <div>
-      <span>{{ count }}</span>
+    <div class="flex justify-between items-center">
+      <div class="text-2xl text-bold">{{ count }}</div>
+      <div class="text-md text-gray-500">
+        <span>{{ subText }}</span>
+        <span class="ml-2">{{ subNumber }}</span>
+      </div>
     </div>
-    <p>{{ description }}</p>
   </div>
 </template>

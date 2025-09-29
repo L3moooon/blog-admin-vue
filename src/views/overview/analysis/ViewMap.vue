@@ -17,24 +17,25 @@ const option = ref<EChartsOption>({
   title: {
     text: "访客地图",
     textAlign: "center",
-    // textStyle: {
-    //   width: "100%",
-    // },
   },
   aspectRatio: 1.6,
   tooltip: {
     trigger: "item",
-    showDelay: 0,
-    transitionDuration: 0.2,
-    // formatter: ({ name, value }) => `${name}: ${value}（单位：万人）`, // 自定义提示内容
+    showDelay: 1,
+    transitionDuration: 0.5,
+    // backgroundColor: "rgba(255, 255, 255, 0.95)",
+    // borderColor: "#E8F3FF",
+    borderWidth: 1,
+    textStyle: { color: "#1D2129" },
+    formatter: ({ name, value }) => `${name}: ${value || 0} 人`,
   },
   visualMap: {
     left: "left",
     // min: 0,
     // max: 100,
     inRange: {
-      // color: ["#eff6fc", "#71afe5", "#004578"], // 调整渐变色
-      color: ["#e2a2ac", "#dd6b7b", "#c25160", "#b81a35"], // 调整渐变色
+      // color: ["#bd9683", "#955a42", "#81492c", "#68361a"],//褐色
+      color: ["#f2bbb0", "#DD6B4F", "#D24735", "#B93A26"],
     },
     // text: ["高值", "低值"],
     calculable: true,
@@ -50,26 +51,32 @@ const option = ref<EChartsOption>({
       right: "20%",
       bottom: "0%",
       zoom: 1.2, // 放大
-      // 若地图位置因缩放偏移，可配合 center 调整中心坐标
-      center: [105, 38], // 以经度105、纬度38为中心（中国大致中心）
+      center: [105, 38], // 以经度105、纬度38为中心
       label: {
         show: true,
-        // color: "#000", // 文字颜色
-        // fontSize: 12, // 文字大小
-        // fontWeight: "bold", // 文字加粗
-        // formatter: "{b}", // 显示省份名称
+        color: "#000", // 文字颜色
+        fontSize: 14, // 文字大小
+        // fontWeight: "semboid", // 文字加粗
+        formatter: "{b}", // 显示省份名称
+      },
+      // 地图板块默认样式
+      itemStyle: {
+        areaColor: "#eaf1e9", // 基础底色 #bebeb6
+        borderColor: "#bebeb6", // 板块边框
+        borderWidth: 1,
       },
       emphasis: {
         label: { show: true, color: "#222" }, // 高亮时文字设为白色
         itemStyle: {
           areaColor: "#bed2bb",
-          borderColor: "#e94829 ",
-        }, // 高亮时区域色
+          borderColor: "#2a6e3f",
+        },
       },
       data: viewGeoData.value, // 数据
     },
   ],
 });
+
 const getGeoData = async () => {
   const { data, code } = await getGeoDataApi();
   if (code) {

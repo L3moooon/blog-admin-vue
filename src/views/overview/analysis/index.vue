@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ScrollNumber from "./scrollNumber.vue";
@@ -6,17 +6,24 @@ import ViewTrend from "./ViewTrend.vue";
 import MonthVisites from "./MonthVisites.vue";
 import ViewMap from "./ViewMap.vue";
 import PieChart from "./PieChart.vue";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { getNumData as getNumDataApi } from "@/api/overview/analysis";
 
+const numData = ref({
+  total_visits: 0,
+  article_count: 0,
+  comment_count: 0,
+  star_count: 0,
+});
 //获取分析页数据
 const getNumData = async () => {
   const { data, code } = await getNumDataApi();
   if (code == 1) {
+    numData.value = data;
   }
 };
 onMounted(() => {
-  // getNumData();
+  getNumData();
 });
 </script>
 
@@ -25,10 +32,11 @@ onMounted(() => {
     <div class="p-5">
       <div class="grid grid-cols-4 gap-5 mb-5">
         <ScrollNumber
-          title="访问量"
-          description="总访问量"
-          :target="2000"
-          :total="2000">
+          title="总访问量"
+          :target="numData.total_visits"
+          :total="2000"
+          subText="今日访问量"
+          :subNumber="2">
           <template #icon>
             <img
               class="size-12"
@@ -37,8 +45,10 @@ onMounted(() => {
           </template>
         </ScrollNumber>
         <ScrollNumber
-          title="文章量"
-          :target="2000">
+          title="总文章量"
+          :target="numData.article_count"
+          subText="今日发布文章"
+          :subNumber="1">
           <template #icon>
             <img
               class="size-12"
@@ -47,8 +57,10 @@ onMounted(() => {
           </template>
         </ScrollNumber>
         <ScrollNumber
-          title="评论量"
-          :target="2000">
+          title="总评论量"
+          :target="numData.comment_count"
+          subText="今日收获评论"
+          :subNumber="2">
           <template #icon>
             <img
               class="size-12"
@@ -57,8 +69,10 @@ onMounted(() => {
           </template>
         </ScrollNumber>
         <ScrollNumber
-          title="点赞量"
-          :target="2000">
+          title="总点赞量"
+          :target="numData.star_count"
+          subText="今日收获点赞"
+          :subNumber="2">
           <template #icon>
             <img
               class="size-12"

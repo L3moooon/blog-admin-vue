@@ -21,6 +21,7 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       try {
+        console.log(to);
         await useUserStore().generateRoutes();
         next({ ...to, replace: true });
       } catch (error) {

@@ -19,6 +19,7 @@ export default defineConfig({
   },
   server: {
     open: true,
+    port: 5174,
     headers: {
       "Cross-Origin-Opener-Policy": "cross-origin",
     },

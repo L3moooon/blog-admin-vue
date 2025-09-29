@@ -2,7 +2,7 @@
 import User from "./User.vue";
 import ToggleTheme from "./ToggleTheme.vue";
 import Message from "./Message.vue";
-import Settings from "./settings/index.vue";
+import Settings from "./Settings.vue";
 </script>
 <template>
   <div class="!ml-auto flex h-12 gap-3">

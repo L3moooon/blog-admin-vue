@@ -1,18 +1,23 @@
 import { defineStore } from "pinia";
 import type { TabItem, TabStore } from "./type";
+import router from "@/router/index";
 
 export const useTabsStore = defineStore("tabs", {
   state: (): TabStore => {
     return {
       tabList: [], // 标签页列表
-      activeKey: "", // 当前激活的标签
+      activeKey: "/analysis", // 当前激活的标签
       fixedTabs: ["/analysis"], // 固定标签页
     };
   },
   actions: {
+    //更换标签页
+    changeActiveTab(key: string) {
+      this.activeKey = key;
+      router.push(key);
+    },
     // 添加标签页
     addTab(tab: TabItem) {
-      // 避免重复添加
       if (!this.tabList.some((item) => item.path === tab.path)) {
         this.tabList.push(tab);
       }
@@ -22,17 +27,28 @@ export const useTabsStore = defineStore("tabs", {
     removeTab(path: string) {
       const index = this.tabList.findIndex((item) => item.path === path);
       this.tabList.splice(index, 1);
-
-      // 如果删除的是当前激活的标签，需要切换到其他标签
-      if (path === this.activeKey && this.tabList.length > 0) {
-        this.activeKey = this.tabList[index - 1 >= 0 ? index - 1 : 0].path;
-        // 跳转到新的激活标签对应的路由
-        // router.push(this.activeKey);
+      if (path === this.activeKey) {
+        this.activeKey = this.tabList[index - 1].path;
+        router.push(this.activeKey);
       }
     },
-
-    changeActiveTab(key: string) {
-      this.activeKey = key;
+    //固定/取消固定标签页
+    togglePinTab(path: string) {
+      const index = this.fixedTabs.findIndex((item) => item === path);
+      if (index >= 0) {
+        this.fixedTabs.splice(index, 1);
+      } else {
+        this.fixedTabs.push(path);
+      }
+    },
+    closeLeftTabs(path: string) {},
+    closeRightTabs(path: string) {},
+    closeOtherTabs(path: string) {},
+    closeAllTabs() {},
+    clearInfo() {
+      this.tabList = []; // 标签页列表
+      this.activeKey = "/analysis"; // 当前激活的标签
+      this.fixedTabs = ["/analysis"]; // 固定标签页
     },
   },
   // 持久化配置

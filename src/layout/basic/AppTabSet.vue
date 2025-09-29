@@ -33,27 +33,7 @@ import {
 import { iconComponentMap } from "@/utils/routeIcon";
 
 const tabsStore = useTabsStore();
-const router = useRouter();
 
-const changeTab = (path: string) => {
-  tabsStore.changeActiveTab(path);
-  router.push(path);
-};
-
-const handleCloseTab = (path: string) => {
-  tabsStore.closeTab(path);
-  if (tabsStore.activeKey === path) {
-    const lastTab = tabsStore.tabList[tabsStore.tabList.length - 1];
-    if (lastTab) {
-      changeTab(lastTab.path);
-    } else {
-      router.push("/");
-    }
-  }
-};
-const handlePinTab = (path: string) => {
-  tabsStore.togglePinTab(path);
-};
 const handleMaxTab = (path: string) => {
   window.open(window.location.origin + path, "_blank");
 };
@@ -69,25 +49,6 @@ const handleReloadTab = (path: string) => {
 };
 const handleNewTab = (path: string) => {
   window.open(window.location.origin + path, "_blank");
-};
-const handleCloseLeftTabs = (path: string) => {
-  tabsStore.closeLeftTabs(path);
-  if (tabsStore.activeKey === path) {
-    changeTab(path);
-  }
-};
-const handleCloseRightTabs = () => {
-  const activePath = tabsStore.activeKey;
-  tabsStore.closeRightTabs(activePath);
-  changeTab(activePath);
-};
-const handleCloseOtherTabs = (path: string) => {
-  tabsStore.closeOtherTabs(path);
-  changeTab(path);
-};
-const handleCloseAllTabs = () => {
-  tabsStore.closeAllTabs();
-  router.push("/");
 };
 </script>
 <template>
@@ -105,7 +66,7 @@ const handleCloseAllTabs = () => {
                 tabsStore.activeKey == tab.path ? 'active' : 'inactive'
               "
               class="w-30 border-r-gray-200 h-full flex border-b-2 border-transparent justify-center items-center cursor-pointer text-sm text-black/50 transition-all data-[state=active]:bg-blue-100 data-[state=active]:border-b-blue-400 data-[state=active]:text-blue-400 select-none hover:bg-gray-100 relative"
-              @click="changeTab(tab.path)">
+              @click="tabsStore.changeActiveTab(tab.path)">
               <component
                 :is="iconComponentMap[tab.icon]"
                 :color="tabsStore.activeKey == tab.path ? '#51a2ff' : '#737373'"
@@ -115,10 +76,13 @@ const handleCloseAllTabs = () => {
               </div>
               <Pin
                 v-if="tabsStore.fixedTabs.includes(tab.path)"
-                class="top-1 size-4 text-black/30" />
+                class="top-1 size-4 text-black/30"
+                :color="
+                  tabsStore.activeKey == tab.path ? '#51a2ff' : '#737373'
+                " />
               <X
-                v-else
-                @click.stop="tabsStore.closeTab(tab.path)"
+                v-else-if="index != 0"
+                @click.stop="tabsStore.removeTab(tab.path)"
                 class="size-4 text-black/30 hover:text-black" />
             </div>
           </ContextMenuTrigger>
@@ -128,14 +92,17 @@ const handleCloseAllTabs = () => {
             align="start"
             class="w-48">
             <!-- 关闭 -->
-            <ContextMenuItem @click="handleCloseTab(tab.path)">
+            <ContextMenuItem @click="tabsStore.removeTab(tab.path)">
               <X class="mr-2 size-4" />
               关闭
             </ContextMenuItem>
             <!-- 固定/取消固定标签 -->
-            <ContextMenuItem @click="handlePinTab(tab.path)">
+            <ContextMenuItem @click="tabsStore.togglePinTab(tab.path)">
               <Pin class="mr-2 size-4" />
-              {{ tabsStore.fixedTabs.includes(tab.path) ? "取消固定" : "固定" }}
+              <span v-if="tabsStore.fixedTabs.includes(tab.path)">
+                取消固定
+              </span>
+              <span v-else>固定</span>
             </ContextMenuItem>
             <!-- 最大化-->
             <ContextMenuItem @click="handleMaxTab(tab.path)">
@@ -155,14 +122,14 @@ const handleCloseAllTabs = () => {
             <ContextMenuSeparator />
             <!-- 关闭左侧标签 -->
             <ContextMenuItem
-              @click="handleCloseLeftTabs(tab.path)"
+              @click="tabsStore.closeLeftTabs(tab.path)"
               :disabled="tabsStore.tabList.length <= 1">
               <ArrowLeftToLine class="mr-2 size-4" />
               关闭左侧
             </ContextMenuItem>
             <!-- 关闭右侧标签 -->
             <ContextMenuItem
-              @click="handleCloseRightTabs"
+              @click="tabsStore.closeLeftTabs(tab.path)"
               :disabled="tabsStore.tabList.length <= 1">
               <ArrowRightToLine class="mr-2 size-4" />
               关闭右侧
@@ -170,17 +137,17 @@ const handleCloseAllTabs = () => {
             <ContextMenuSeparator />
             <!-- 关闭其他标签 -->
             <ContextMenuItem
-              @click="handleCloseOtherTabs(tab.path)"
+              @click="tabsStore.closeLeftTabs(tab.path)"
               :disabled="tabsStore.tabList.length <= 1">
               <ArrowRightLeft class="mr-2 size-4" />
               关闭其他标签
             </ContextMenuItem>
             <!-- 关闭所有标签 -->
             <ContextMenuItem
-              @click="handleCloseAllTabs"
+              @click="tabsStore.closeAllTabs()"
               :disabled="tabsStore.tabList.length <= 1">
               <FoldHorizontal class="mr-2 size-4" />
-              关闭所有标签
+              关闭全部标签
             </ContextMenuItem>
           </ContextMenuContent>
         </ContextMenu>

@@ -7,13 +7,16 @@ import {
 
 import { onMounted, ref } from "vue";
 import { useUserStore } from "@/store/user";
+import { useTabsStore } from "@/store/tabs";
 
 const userStore = useUserStore();
+const tabsStore = useTabsStore();
 const user = ref(
   userStore.name || JSON.parse(localStorage.getItem("user"))?.name
 );
 const handleLogout = () => {
   userStore.logout();
+  tabsStore.clearInfo();
 };
 </script>
 

@@ -29,7 +29,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 
 // 响应式数据
 const userData = ref<UserItem[]>([]);
@@ -71,6 +71,10 @@ const columns = [
     prop: "last_login_time",
     label: "最后登录时间",
     sortable: true,
+  },
+  {
+    prop: "role",
+    label: "角色",
   },
   {
     prop: "actions",

@@ -1,5 +1,9 @@
 //角色管理
 import request from "@/utils/request";
+
+enum API {
+  GET_ROLE_LIST = "/admin/role/getRoleList",
+}
 //获取所有角色
 export const getRoleList = () => {
   return request({

@@ -26,10 +26,8 @@ export const useUserStore = defineStore("User", {
   },
   actions: {
     async saveUserInfo(user: User, token: string) {
-      console.log(user, token);
       this.user = user;
       this.token = token;
-      console.log(this.user, this.token);
       await this.generateRoutes();
     },
 
