@@ -160,6 +160,7 @@ watch(
   () => showArticleDialog.value,
   (val) => {
     if (val) {
+      console.log("打开弹窗", props.rowInfo, form);
       if (props.rowInfo) {
         form.id = props.rowInfo.id;
         form.title = props.rowInfo.title;
@@ -171,11 +172,17 @@ watch(
     } else {
       //退出提示保存草稿
       resetForm();
+      console.log("关闭弹窗", form);
     }
   }
 );
 const resetForm = () => {
-  Object.assign(form, initialForm);
+  form.id = undefined;
+  form.title = "";
+  form.cover_img = "";
+  form.abstract = "";
+  form.content = "";
+  form.tag = [];
 };
 onUnmounted(() => {
   if (editorRef.value == null) return;

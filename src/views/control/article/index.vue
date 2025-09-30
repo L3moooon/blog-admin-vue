@@ -144,6 +144,10 @@ const handleUpdateArticle = async (
     row[field] = originalValue;
   }
 };
+const handleAddArticle = () => {
+  showArticleDialog.value = true;
+  rowInfo.value = null;
+};
 //编辑文章
 const handleEditArticle = (row: ArticleItem) => {
   console.log(row);
@@ -193,7 +197,7 @@ onMounted(() => {
     <div class="flex justify-between my-2">
       <div class="flex gap-2">
         <Button
-          @click="showArticleDialog = true"
+          @click="handleAddArticle"
           variant="outline"
           class="cursor-pointer">
           <BookPlus />
