@@ -19,18 +19,22 @@ onMounted(() => {});
       <transition-group
         name="fade"
         tag="div">
+        <!-- 账号登录 -->
         <LoginByAccount
           v-if="showType == 'account'"
           v-model="showType"
           key="account" />
+        <!-- 邮箱登录 -->
         <LoginByMail
           v-if="showType == 'mail'"
           v-model="showType"
           key="mail" />
+        <!-- 手机/二维码登录 -->
         <LoginByQRcode
           v-if="showType == 'phone'"
           v-model="showType"
           key="QRcode" />
+        <!-- 忘记密码 -->
         <ForgetPassword
           v-if="showType == 'forgetPassword'"
           v-model="showType"

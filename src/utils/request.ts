@@ -5,7 +5,7 @@ import type {
   InternalAxiosRequestConfig,
 } from "axios";
 import { toast } from "vue-sonner";
-import { useRouter } from "vue-router";
+import router from "../router/index";
 import { useUserStore } from "../store/user";
 const request: AxiosInstance = axios.create({
   baseURL: "/",
@@ -21,7 +21,7 @@ request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const currentTime = Date.now();
     if (currentTime > expirationTime) {
       localStorage.removeItem("user"); // 清除过期的 token
-      useRouter().push("/login"); // 使用路由跳转，避免页面刷新
+      router.push("/login"); // 使用路由跳转，避免页面刷新
     } else {
       config.headers.authorization = `Bearer ${token}`; // 遵循 Bearer 规范
     }
