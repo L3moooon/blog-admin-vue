@@ -4,8 +4,8 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
-import { toast } from "vue-sonner";
 import router from "../router/index";
+import { toast } from "vue-sonner";
 import { useUserStore } from "../store/user";
 const request: AxiosInstance = axios.create({
   baseURL: "/",

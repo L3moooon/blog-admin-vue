@@ -1,7 +1,7 @@
 export interface TabItem {
   path: string;
-  name: string | symbol | undefined;
-  icon: string;
+  name?: string | symbol;
+  icon?: string;
   key: string;
 }
 export interface TabStore {

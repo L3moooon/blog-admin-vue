@@ -80,7 +80,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/control/role/index.vue"),
         meta: {
           showInTabs: true,
-          icon: "KeyRound",
+          icon: "UserCog",
         },
       },
       {
@@ -125,7 +125,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         name: "音乐盒设置",
         path: "/setting/music",
-        component: () => import("@/views/setting/music.vue"),
+        component: () => import("@/views/setting/music/index.vue"),
         meta: {
           showInTabs: true,
           icon: "Music4",

@@ -2,6 +2,7 @@ import {
   LayoutDashboard,
   ChartLine,
   KeyRound,
+  UserCog,
   Cctv,
   Handshake,
   IdCard,
@@ -25,7 +26,8 @@ interface Icon {
 export const iconComponentMap: Icon = {
   LayoutDashboard: LayoutDashboard,
   ChartLine: ChartLine,
-  KeyRound: KeyRound,
+  // KeyRound: KeyRound,
+  UserCog: UserCog,
   Cctv: Cctv,
   Handshake: Handshake,
   IdCard: IdCard,
