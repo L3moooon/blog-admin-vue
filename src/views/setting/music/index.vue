@@ -180,7 +180,7 @@ onMounted(() => {
       <div class="flex">
         <div class="text-xl font-200">音乐盒设置</div>
         <div class="text-sm text-gray-500 ml-2 mt-1.5">
-          本页用于查看和设置前台的音乐盒播放列表
+          本页用于查看和设置博客前台的音乐盒播放列表
         </div>
       </div>
     </div>
@@ -220,52 +220,13 @@ onMounted(() => {
         align-center
         :loading="isLoading"
       >
-        <!-- 文章标题插槽：超长文本省略 -->
-        <template #cell-title="{ value }">
-          <div
-            class="max-w-[200px] truncate"
-            title="文章标题"
-          >
-            {{ value || "未知文章" }}
-          </div>
-        </template>
-
-        <!-- 评论内容插槽：超长文本省略 + hover显示完整内容 -->
-        <template #cell-content="{ value }">
-          <div
-            class="max-w-[300px] truncate"
-            :title="value || '无评论内容'"
-          >
-            {{ value || "无评论内容" }}
-          </div>
-        </template>
-
-        <!-- 回复用户ID插槽：无数据时显示占位 -->
-        <template #cell-parent_id="{ value }">
-          <span>{{ value || "-" }}</span>
-        </template>
-
-        <!-- 评论时间插槽：使用统一时间指令 -->
-        <template #cell-comment_date="{ value }">
-          <span v-time="value"></span>
-        </template>
-
-        <!-- 最后编辑时间插槽：无数据时显示占位 -->
-        <template #cell-edit_date="{ value }">
-          <span
-            v-time="value"
-            v-if="value"
-          ></span>
-          <span v-else>-</span>
-        </template>
-
         <!-- 操作列插槽：状态切换 + 删除 -->
         <template #cell-actions="{ row }">
           <div class="flex items-center gap-4">
             <!-- 显示/隐藏状态切换 -->
             <div class="flex items-center gap-2">
               <Label :class="row.status ? 'text-green-600' : ''">
-                {{ row.status ? "显示" : "隐藏" }}
+                {{ row.status ? "启用" : "禁用" }}
               </Label>
               <Switch
                 class="cursor-pointer"

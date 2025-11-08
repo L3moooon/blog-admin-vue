@@ -7,7 +7,7 @@ import { createApp } from "vue";
 const app = createApp(App);
 //注册自定义指令
 Object.keys(directives).forEach((key) => {
-  app.directive(key, directives[key]);
+	app.directive(key, directives[key]);
 });
 app.use(router);
 app.use(pinia);
