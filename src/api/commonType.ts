@@ -7,7 +7,7 @@ export interface SimpleCommonListRequest {
 //带搜索的通用列表请求类型断言
 export interface CommonListRequest extends SimpleCommonListRequest {
 	searchKey: string;
-	dateRange: Array<string>;
+	dateRange: Array<Date>;
 }
 
 //通用响应断言

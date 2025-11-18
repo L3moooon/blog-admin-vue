@@ -134,7 +134,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			{
 				name: "友链设置",
 				path: "/setting/friendship",
-				component: () => import("@/views/setting/friendship.vue"),
+				component: () => import("@/views/setting/friendship/index.vue"),
 				meta: {
 					showInTabs: true,
 					icon: "Handshake",

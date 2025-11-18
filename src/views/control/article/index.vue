@@ -106,7 +106,7 @@ const columns = [
 	},
 ];
 
-const dateRange = ref([]);
+const dateRange = ref<Array<Date>>([]);
 const searchKey = ref("");
 const pagination_info = reactive({
 	pageNo: 1,
@@ -183,7 +183,11 @@ const getTagList = async () => {
 	tagList.value = data;
 	console.log(tagList.value);
 };
-
+const updateDateRange = (arr: Array<Date>) => {
+	console.log(arr);
+	dateRange.value = [...arr];
+	getArticleList();
+};
 onMounted(() => {
 	getArticleList();
 	getTagList();
@@ -227,7 +231,7 @@ onMounted(() => {
 						<Search class="size-6 text-muted-foreground" />
 					</span>
 				</div>
-				<MyDataPicker @update:article="getArticleList" />
+				<MyDataPicker @update:dateRange="updateDateRange" />
 			</div>
 		</div>
 		<MyTable
@@ -237,20 +241,26 @@ onMounted(() => {
 			show-overflow-tooltip
 		>
 			<template #cell-cover_img="{ value }">
-				<div v-if="value">
+				<div>
 					<img
+						v-if="value"
 						class="w-20 h-12 object-cover rounded"
 						:src="value as string"
 						alt=""
 					/>
+					<img
+						v-else
+						class="w-20 h-12 object-cover rounded"
+						src="@/assets/images/default-cover.png"
+						alt=""
+					/>
 				</div>
-				<div v-else>暂无封面</div>
 			</template>
 			<template #cell-abstract="{ value }">
 				<span>{{ value || "暂无简介" }}</span>
 			</template>
 			<template #cell-tag="{ value }">
-				<div class="flex flex-wrap gap-1">
+				<div class="flex justify-center flex-wrap gap-1">
 					<div
 						v-for="(item, index) in value"
 						:key="index"
