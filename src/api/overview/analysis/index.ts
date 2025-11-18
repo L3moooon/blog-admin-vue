@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import { CommonResponse } from "@/api/commonType";
+import { CommonResponse } from "@/types/common";
 import type { GetNumDataResponse, GetGeoDataResponse } from "./type";
 enum API {
 	GET_NUM_DATA = "/admin/analysis/getNumData", //滚动数字数据 总访问量/总文章量/总评论量/总点赞量

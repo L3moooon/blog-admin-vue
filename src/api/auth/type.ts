@@ -1,4 +1,4 @@
-import { CommonResponse } from "@/api/commonType";
+import { CommonResponse } from "@/types/common";
 
 //登录请求
 export interface LoginRequest {

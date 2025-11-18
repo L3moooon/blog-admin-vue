@@ -1,4 +1,4 @@
-import { CommonListResponse } from "@/api/commonType";
+import { CommonListResponse } from "@/types/common";
 
 export interface Friend {
 	id: number;

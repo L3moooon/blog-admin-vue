@@ -1,4 +1,4 @@
-import { CommonResponse, CommonListResponse } from "@/api/commonType";
+import { CommonResponse, CommonListResponse } from "@/types/common";
 
 interface Visitor {
 	id: number;

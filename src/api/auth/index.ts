@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import type { CommonResponse } from "../commonType";
+import type { CommonResponse } from "../../types/common";
 import type {
 	LoginRequest,
 	LoginResponse,

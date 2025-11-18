@@ -1,4 +1,4 @@
-import { CommonResponse } from "@/api/commonType";
+import { CommonResponse } from "@/types/common";
 
 export interface GetNumDataResponse extends CommonResponse {
 	data: {

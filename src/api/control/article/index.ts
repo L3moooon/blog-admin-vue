@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import type { CommonResponse, CommonListRequest } from "@/api/commonType";
+import type { CommonResponse, CommonListRequest } from "@/types/common";
 import {
 	ArticleListResponse,
 	AddArticleRequest,

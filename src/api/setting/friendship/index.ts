@@ -2,7 +2,7 @@ import request from "@/utils/request";
 import type {
 	SimpleCommonListRequest,
 	CommonListResponse,
-} from "@/api/commonType";
+} from "@/types/common";
 import type { FriendshipListResponse } from "./type";
 enum API {
 	GET_FRIENDSHIP_LIST = "/admin/friendship/getFriendshipList", //获取友链列表

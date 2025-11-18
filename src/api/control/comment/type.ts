@@ -2,7 +2,7 @@ import {
 	CommonResponse,
 	CommonListResponse,
 	CommonListRequest,
-} from "@/api/commonType";
+} from "@/types/common";
 
 export interface CommentItem {
 	id: number;

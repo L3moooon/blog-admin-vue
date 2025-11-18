@@ -3,7 +3,7 @@ import {
 	CommonResponse,
 	CommonListResponse,
 	CommonListRequest,
-} from "@/api/commonType";
+} from "@/types/common";
 
 enum API {
 	GET_COMMENT_LIST = "/admin/comment/getComments", //获取评论列表

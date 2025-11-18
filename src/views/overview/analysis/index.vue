@@ -5,7 +5,7 @@ import Statistics from "./statistics.vue";
 import ViewTrend from "./ViewTrend.vue";
 import MonthVisites from "./MonthVisites.vue";
 import ViewMap from "./ViewMap.vue";
-import PieChart from "./PieChart.vue";
+// import PieChart from "./PieChart.vue";
 </script>
 
 <template>
@@ -19,19 +19,16 @@ import PieChart from "./PieChart.vue";
 			</div>
 			<Tabs
 				default-value="ViewTrend"
-				class="p-5 border rounded-sm mb-5"
-			>
+				class="p-5 border rounded-sm mb-5">
 				<TabsList class="w-60">
 					<TabsTrigger
 						class="cursor-pointer"
-						value="ViewTrend"
-					>
+						value="ViewTrend">
 						流量趋势
 					</TabsTrigger>
 					<TabsTrigger
 						class="cursor-pointer"
-						value="MonthVisites"
-					>
+						value="MonthVisites">
 						用户增量
 					</TabsTrigger>
 				</TabsList>

@@ -1,4 +1,4 @@
-import { CommonResponse, CommonListResponse } from "@/api/commonType";
+import { CommonResponse, CommonListResponse } from "@/types/common";
 
 export interface ArticleItem {
 	id: number;

@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import { SimpleCommonListRequest, CommonListResponse } from "@/api/commonType";
+import { SimpleCommonListRequest, CommonListResponse } from "@/types/common";
 import type {
 	BackupLogResponse,
 	RebootLogResponse,

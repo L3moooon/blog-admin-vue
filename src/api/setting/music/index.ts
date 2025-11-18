@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import { CommonListRequest, CommonListResponse } from "@/api/commonType";
+import { CommonListRequest, CommonListResponse } from "@/types/common";
 
 enum API {
 	GET_MUSIC_LIST = "/admin/music/getMusicList", //获取音乐列表
