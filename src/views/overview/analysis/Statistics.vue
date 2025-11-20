@@ -98,7 +98,6 @@ onMounted(() => {
 				alt="" />
 		</div>
 		<div class="flex justify-between items-center">
-			<!-- total对应的元素：ID为“label-main” -->
 			<div
 				:id="`${item.label}-main`"
 				class="text-2xl font-bold">
@@ -106,7 +105,6 @@ onMounted(() => {
 			</div>
 			<div class="text-md text-gray-500">
 				<span>{{ item.subTitle }}</span>
-				<!-- today对应的元素：ID为“label-sub” -->
 				<span
 					:id="`${item.label}-sub`"
 					class="ml-2"

@@ -1,4 +1,4 @@
 <script setup lang="ts"></script>
 <template>
-  <div>错误日志</div>
+	<div>开发中</div>
 </template>

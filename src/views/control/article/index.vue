@@ -199,18 +199,18 @@ onMounted(() => {
 		<div class="flex justify-between my-4">
 			<div class="flex gap-2">
 				<Button
+					v-btn="['article_add']"
 					@click="handleAddArticle"
 					variant="outline"
-					class="cursor-pointer"
-				>
+					class="cursor-pointer">
 					<BookPlus />
 					发布文章
 				</Button>
 				<Button
+					v-btn="['article_tag']"
 					@click="showTagDialog = true"
 					variant="outline"
-					class="cursor-pointer"
-				>
+					class="cursor-pointer">
 					<Tag />
 					标签管理
 				</Button>
@@ -223,11 +223,9 @@ onMounted(() => {
 						id="search"
 						type="text"
 						placeholder="搜索..."
-						class="pl-10"
-					/>
+						class="pl-10" />
 					<span
-						class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
-					>
+						class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
 						<Search class="size-6 text-muted-foreground" />
 					</span>
 				</div>
@@ -238,22 +236,19 @@ onMounted(() => {
 			:data="articleList"
 			:columns="columns"
 			align-center
-			show-overflow-tooltip
-		>
+			show-overflow-tooltip>
 			<template #cell-cover_img="{ value }">
 				<div>
 					<img
 						v-if="value"
 						class="w-20 h-12 object-cover rounded"
 						:src="value as string"
-						alt=""
-					/>
+						alt="" />
 					<img
 						v-else
 						class="w-20 h-12 object-cover rounded"
 						src="@/assets/images/default-cover.png"
-						alt=""
-					/>
+						alt="" />
 				</div>
 			</template>
 			<template #cell-abstract="{ value }">
@@ -264,8 +259,7 @@ onMounted(() => {
 					<div
 						v-for="(item, index) in value"
 						:key="index"
-						class="bg-cyan-300/50 rounded-sm px-2"
-					>
+						class="bg-cyan-300/50 rounded-sm px-2">
 						{{ tagList.find((tag) => tag.id === item)?.tag_name || "未知标签" }}
 					</div>
 				</div>
@@ -280,32 +274,32 @@ onMounted(() => {
 				<div class="flex space-x-2 items-center">
 					<Label>置顶</Label>
 					<Switch
+						v-btn="['article_top']"
 						class="cursor-pointer"
 						name="top"
 						:model-value="row.top"
-						@update:model-value="handleUpdateArticle(row, 'top', !row.top)"
-					>
+						@update:model-value="handleUpdateArticle(row, 'top', !row.top)">
 					</Switch>
 					<Label>展示</Label>
 					<Switch
+						v-btn="['article_show']"
 						class="cursor-pointer"
 						:model-value="row.status"
 						@update:model-value="
 							handleUpdateArticle(row, 'status', !row.status)
-						"
-					>
+						">
 					</Switch>
 					<button
+						v-btn="['article_edit']"
 						class="text-blue-600 hover:text-blue-800 cursor-pointer"
-						@click="handleEditArticle(row)"
-					>
+						@click="handleEditArticle(row)">
 						编辑
 					</button>
 					<!-- 删除文章 -->
 					<AlertDialog>
 						<AlertDialogTrigger
-							class="text-red-400 hover:text-red-500 cursor-pointer"
-						>
+							v-btn="['article_delete']"
+							class="text-red-400 hover:text-red-500 cursor-pointer">
 							删除
 						</AlertDialogTrigger>
 						<AlertDialogContent>
@@ -321,8 +315,7 @@ onMounted(() => {
 								</AlertDialogCancel>
 								<AlertDialogAction
 									class="cursor-pointer"
-									@click="handleDelConfirm(row.id)"
-								>
+									@click="handleDelConfirm(row.id)">
 									确认
 								</AlertDialogAction>
 							</AlertDialogFooter>
@@ -338,26 +331,22 @@ onMounted(() => {
 			:items-per-page="pagination_info.pageSize"
 			:total="pagination_info.total"
 			showEdges
-			:default-page="1"
-		>
+			:default-page="1">
 			<PaginationContent v-slot="{ items }">
 				<PaginationPrevious />
 				<template
 					v-for="(item, index) in items"
-					:key="index"
-				>
+					:key="index">
 					<PaginationItem
 						v-if="item.type === 'page'"
 						:value="item.value"
-						:is-active="item.value === page"
-					>
+						:is-active="item.value === page">
 						{{ item.value }}
 					</PaginationItem>
 					<PaginationEllipsis
 						v-else
 						:key="item.type"
-						:index="index"
-					>
+						:index="index">
 						&#8230;
 					</PaginationEllipsis>
 				</template>
@@ -371,13 +360,11 @@ onMounted(() => {
 		v-model:showArticleDialog="showArticleDialog"
 		:rowInfo="rowInfo"
 		:tagList="tagList"
-		@update:article="getArticleList"
-	/>
+		@update:article="getArticleList" />
 	<!-- 新增/编辑标签 -->
 	<EditTag
 		v-if="tagList.length"
 		v-model:showTagDialog="showTagDialog"
 		:tagList="tagList"
-		@update:tagList="getTagList"
-	/>
+		@update:tagList="getTagList" />
 </template>

@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive, watch } from "vue";
 import MyTable from "@/components/table/MyTable.vue";
-import { Spinner } from "@/components/ui/spinner";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { toast } from "vue-sonner";
 import { getBackupLog as getBackupLogApi } from "@/api/data/schedule/index";
 import type { BackupLogItem } from "@/api/data/schedule/type";
 import {
@@ -78,7 +74,7 @@ const getColor = (value: string) => {
 	} else if (value == "执行中") {
 		return "#e7c37f"; // 50-75黄色
 	} else {
-		return "#f37f84"; // 75-100红色（注意这里修正了原描述的笔误，应该是75-100）
+		return "#f37f84"; // 75-100红色
 	}
 };
 watch(
@@ -111,15 +107,16 @@ onMounted(() => {
 			:data="backupData"
 			:columns="columns"
 			align-center
-			show-overflow-tooltip
-		>
+			show-overflow-tooltip>
 			<template #cell-status="{ value }">
 				<div
 					class="px-2 rounded-md"
-					:style="{backgroundColor: getColor(value as string),}"
-				>
+					:style="{backgroundColor: getColor(value as string)}">
 					{{ value }}
 				</div>
+			</template>
+			<template #cell-duration="{ value }">
+				<span>{{ value }}s</span>
 			</template>
 			<template #cell-time="{ value }">
 				<span v-time="value"></span>
@@ -136,26 +133,22 @@ onMounted(() => {
 			:items-per-page="pagination_info.pageSize"
 			:total="pagination_info.total"
 			showEdges
-			:default-page="1"
-		>
+			:default-page="1">
 			<PaginationContent v-slot="{ items }">
 				<PaginationPrevious />
 				<template
 					v-for="(item, index) in items"
-					:key="index"
-				>
+					:key="index">
 					<PaginationItem
 						v-if="item.type === 'page'"
 						:value="item.value"
-						:is-active="item.value === page"
-					>
+						:is-active="item.value === page">
 						{{ item.value }}
 					</PaginationItem>
 					<PaginationEllipsis
 						v-else
 						:key="item.type"
-						:index="index"
-					>
+						:index="index">
 						&#8230;
 					</PaginationEllipsis>
 				</template>

@@ -1,5 +1,20 @@
 import { CommonResponse } from "@/types/common";
 
+export interface Role {
+	id: number;
+	role_name: string;
+	role_code: string;
+	description: string;
+	create_time: String;
+	update_time: string;
+	status: number;
+	permission_ids: Array<number>;
+}
+
+export interface RoleList extends CommonResponse {
+	data: Array<Role>;
+}
+
 export interface UserItem {
 	id: number;
 	account: string;

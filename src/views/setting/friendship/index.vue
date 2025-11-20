@@ -115,7 +115,7 @@ onMounted(() => {
 			<div class="flex">
 				<div class="text-xl font-200">友链列表</div>
 				<div class="text-sm text-gray-500 ml-2 mt-1.5">
-					本页用于查看所有的友友情链接列表
+					本页用于查看所有的友情链接列表
 				</div>
 			</div>
 		</div>
@@ -132,6 +132,7 @@ onMounted(() => {
 							<!-- 显示/隐藏状态切换 -->
 							<div
 								v-if="!row.status"
+								v-btn="['friendship_audit']"
 								class="flex items-center gap-2">
 								通过审核
 							</div>

@@ -1,7 +1,7 @@
 import App from "./App.vue";
 import router from "@/router/index";
 import pinia from "./store";
-import directives from "./directives"; // 导入指令
+import directives from "./directives";
 import { createApp } from "vue";
 
 const app = createApp(App);
