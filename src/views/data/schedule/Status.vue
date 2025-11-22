@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive, watch } from "vue";
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import { Spinner } from "@/components/ui/spinner";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -102,8 +102,7 @@ onMounted(() => {
 		<MyTable
 			:data="statusData"
 			:columns="columns"
-			align-center
-		>
+			align-center>
 			<template #cell-cpu_usage="{ value }">
 				<div class="w-40 bg-gray-200 rounded-md h-4 relative overflow-hidden">
 					<div
@@ -111,11 +110,9 @@ onMounted(() => {
 						:style="{
 							width: `${value}%`, // 宽度等于CPU使用率百分比
 							backgroundColor: getProgressColor(value as number),
-						}"
-					></div>
+						}"></div>
 					<span
-						class="absolute inset-0 flex items-center justify-center text-sm font-medium"
-					>
+						class="absolute inset-0 flex items-center justify-center text-sm font-medium">
 						{{ value }}%
 					</span>
 				</div>
@@ -127,11 +124,9 @@ onMounted(() => {
 						:style="{
 							width: `${value}%`, // 宽度等于CPU使用率百分比
 							backgroundColor: getProgressColor(value as number),
-						}"
-					></div>
+						}"></div>
 					<span
-						class="absolute inset-0 flex items-center justify-center text-sm font-medium"
-					>
+						class="absolute inset-0 flex items-center justify-center text-sm font-medium">
 						{{ value }}%
 					</span>
 				</div>
@@ -143,11 +138,9 @@ onMounted(() => {
 						:style="{
 							width: `${value}%`, // 宽度等于CPU使用率百分比
 							backgroundColor: getProgressColor(value as number),
-						}"
-					></div>
+						}"></div>
 					<span
-						class="absolute inset-0 flex items-center justify-center text-sm font-medium"
-					>
+						class="absolute inset-0 flex items-center justify-center text-sm font-medium">
 						{{ value }}%
 					</span>
 				</div>
@@ -159,11 +152,9 @@ onMounted(() => {
 						:style="{
 							width: `${value}%`, // 宽度等于CPU使用率百分比
 							backgroundColor: getProgressColor(value as number),
-						}"
-					></div>
+						}"></div>
 					<span
-						class="absolute inset-0 flex items-center justify-center text-sm font-medium"
-					>
+						class="absolute inset-0 flex items-center justify-center text-sm font-medium">
 						{{ value }}%
 					</span>
 				</div>
@@ -183,26 +174,22 @@ onMounted(() => {
 			:items-per-page="pagination_info.pageSize"
 			:total="pagination_info.total"
 			showEdges
-			:default-page="1"
-		>
+			:default-page="1">
 			<PaginationContent v-slot="{ items }">
 				<PaginationPrevious />
 				<template
 					v-for="(item, index) in items"
-					:key="index"
-				>
+					:key="index">
 					<PaginationItem
 						v-if="item.type === 'page'"
 						:value="item.value"
-						:is-active="item.value === page"
-					>
+						:is-active="item.value === page">
 						{{ item.value }}
 					</PaginationItem>
 					<PaginationEllipsis
 						v-else
 						:key="item.type"
-						:index="index"
-					>
+						:index="index">
 						&#8230;
 					</PaginationEllipsis>
 				</template>

@@ -6,7 +6,7 @@ import {
 	// deleteUser,
 } from "@/api/control/user/index";
 import type { UserItem, PaginationData } from "@/api/control/user/type";
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "vue-sonner";
@@ -46,13 +46,21 @@ const pagination_info = reactive<PaginationData>({
 // 表格列配置
 const columns = [
 	{
-		prop: "id",
+		prop: "account_id",
 		label: "ID",
 		width: 80,
 	},
 	{
 		prop: "account",
 		label: "账号",
+	},
+	{
+		prop: "name",
+		label: "昵称",
+	},
+	{
+		prop: "avatar",
+		label: "头像",
 	},
 	{
 		prop: "ip",
@@ -73,7 +81,7 @@ const columns = [
 		sortable: true,
 	},
 	{
-		prop: "role",
+		prop: "role_names",
 		label: "角色",
 	},
 	{
@@ -93,9 +101,11 @@ const getList = async () => {
 		searchKey: searchKey.value,
 	};
 
-	const { data, pagination } = await getAdminList(params);
-	userData.value = data;
-	Object.assign(pagination_info, pagination);
+	const { code, data, pagination } = await getAdminList(params);
+	if (code == 1) {
+		userData.value = data;
+		Object.assign(pagination_info, pagination);
+	}
 };
 
 // 改变用户状态（启用/禁用）
@@ -148,9 +158,7 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="px-5 py-4">
-		<div class="border rounded-lg overflow-hidden">
+		<div class="px-5 py-4">
 			<MyTable
 				:data="userData"
 				:columns="columns"
@@ -158,6 +166,11 @@ onMounted(() => {
 				<template #cell-location="{ value }">
 					<span v-if="value"> {{ value.province }}-{{ value.city }} </span>
 					<span v-else>未知</span>
+				</template>
+				<template #cell-role_names="{ value }">
+					<div>
+						<div v-for="item in value">{{ item }}</div>
+					</div>
 				</template>
 				<template #cell-create_time="{ value }">
 					<span v-time="value"></span>
@@ -210,6 +223,35 @@ onMounted(() => {
 					</div>
 				</template>
 			</MyTable>
+			<Pagination
+				class="mt-2"
+				v-slot="{ page }"
+				v-model:page="pagination_info.pageNo"
+				:items-per-page="pagination_info.pageSize"
+				:total="pagination_info.total"
+				showEdges
+				:default-page="1">
+				<PaginationContent v-slot="{ items }">
+					<PaginationPrevious />
+					<template
+						v-for="(item, index) in items"
+						:key="index">
+						<PaginationItem
+							v-if="item.type === 'page'"
+							:value="item.value"
+							:is-active="item.value === page">
+							{{ item.value }}
+						</PaginationItem>
+						<PaginationEllipsis
+							v-else
+							:key="item.type"
+							:index="index">
+							&#8230;
+						</PaginationEllipsis>
+					</template>
+					<PaginationNext />
+				</PaginationContent>
+			</Pagination>
 		</div>
 	</div>
 </template>

@@ -6,7 +6,7 @@ import {
 } from "@/api/setting/music/index";
 import { upload } from "@/api/public";
 import type { CommentItem } from "@/api/control/comment/type";
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-vue-next";
 import { Label } from "@/components/ui/label";
@@ -184,112 +184,112 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="px-5 py-4">
-		<!-- 顶部操作栏：标题 + 搜索框 -->
-		<div class="flex justify-between items-center mb-4">
-			<Button
-				v-btn="['music_upload']"
-				@click="handleUpload"
-				variant="outline"
-				class="cursor-pointer">
-				<Upload />
-				上传音乐
-			</Button>
-			<div class="relative w-full max-w-md">
-				<Input
-					v-model="searchKey"
-					@input="debouncedGetList"
-					id="comment-search"
-					type="text"
-					placeholder="搜索歌名/歌词/作者..."
-					class="pl-10 h-10" />
-				<span
-					class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
-					<Search class="size-5 text-muted-foreground" />
-				</span>
+		<div class="px-5 py-4">
+			<!-- 顶部操作栏：标题 + 搜索框 -->
+			<div class="flex justify-between items-center mb-4">
+				<Button
+					v-btn="['music_upload']"
+					@click="handleUpload"
+					variant="outline"
+					class="cursor-pointer">
+					<Upload />
+					上传音乐
+				</Button>
+				<div class="relative w-full max-w-md">
+					<Input
+						v-model="searchKey"
+						@input="debouncedGetList"
+						id="comment-search"
+						type="text"
+						placeholder="搜索歌名/歌词/作者..."
+						class="pl-10 h-10" />
+					<span
+						class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+						<Search class="size-5 text-muted-foreground" />
+					</span>
+				</div>
 			</div>
-		</div>
 
-		<div class="border rounded-lg overflow-hidden bg-white shadow-sm">
-			<MyTable
-				:data="musicData"
-				:columns="columns"
-				align-center
-				:loading="isLoading">
-				<!-- 操作列插槽：状态切换 + 删除 -->
-				<template #cell-actions="{ row }">
-					<div class="flex items-center gap-4">
-						<!-- 显示/隐藏状态切换 -->
-						<div class="flex items-center gap-2">
-							<Label :class="row.status ? 'text-green-600' : ''">
-								{{ row.status ? "启用" : "禁用" }}
-							</Label>
-							<Switch
-								class="cursor-pointer"
-								:model-value="row.status"
-								@update:model-value="handleChangeStatus(row)"
-								:disabled="isStatusLoading" />
+			<div class="border rounded-lg overflow-hidden bg-white shadow-sm">
+				<MyTable
+					:data="musicData"
+					:columns="columns"
+					align-center
+					:loading="isLoading">
+					<!-- 操作列插槽：状态切换 + 删除 -->
+					<template #cell-actions="{ row }">
+						<div class="flex items-center gap-4">
+							<!-- 显示/隐藏状态切换 -->
+							<div class="flex items-center gap-2">
+								<Label :class="row.status ? 'text-green-600' : ''">
+									{{ row.status ? "启用" : "禁用" }}
+								</Label>
+								<Switch
+									class="cursor-pointer"
+									:model-value="row.status"
+									@update:model-value="handleChangeStatus(row)"
+									:disabled="isStatusLoading" />
+							</div>
+
+							<!-- 删除确认对话框 -->
+							<AlertDialog>
+								<AlertDialogTrigger
+									v-btn="['music_delete']"
+									class="text-red-500 hover:text-red-700 cursor-pointer text-sm">
+									删除
+								</AlertDialogTrigger>
+								<AlertDialogContent>
+									<AlertDialogHeader>
+										<AlertDialogTitle>删除音乐</AlertDialogTitle>
+										<AlertDialogDescription>
+											删除操作无法撤销，确认删除音乐【{{ row.user_name }}】？
+										</AlertDialogDescription>
+									</AlertDialogHeader>
+									<AlertDialogFooter>
+										<AlertDialogCancel>取消</AlertDialogCancel>
+										<AlertDialogAction
+											@click="handleDelete(row.id)"
+											:disabled="isDeleteLoading">
+											{{ isDeleteLoading ? "删除中..." : "确认" }}
+										</AlertDialogAction>
+									</AlertDialogFooter>
+								</AlertDialogContent>
+							</AlertDialog>
 						</div>
+					</template>
+				</MyTable>
+			</div>
 
-						<!-- 删除确认对话框 -->
-						<AlertDialog>
-							<AlertDialogTrigger
-								v-btn="['music_delete']"
-								class="text-red-500 hover:text-red-700 cursor-pointer text-sm">
-								删除
-							</AlertDialogTrigger>
-							<AlertDialogContent>
-								<AlertDialogHeader>
-									<AlertDialogTitle>删除音乐</AlertDialogTitle>
-									<AlertDialogDescription>
-										删除操作无法撤销，确认删除音乐【{{ row.user_name }}】？
-									</AlertDialogDescription>
-								</AlertDialogHeader>
-								<AlertDialogFooter>
-									<AlertDialogCancel>取消</AlertDialogCancel>
-									<AlertDialogAction
-										@click="handleDelete(row.id)"
-										:disabled="isDeleteLoading">
-										{{ isDeleteLoading ? "删除中..." : "确认" }}
-									</AlertDialogAction>
-								</AlertDialogFooter>
-							</AlertDialogContent>
-						</AlertDialog>
-					</div>
-				</template>
-			</MyTable>
+			<!-- 分页组件 -->
+			<Pagination
+				class="mt-4 flex justify-center"
+				v-slot="{ page }"
+				v-model:page="pagination_info.pageNo"
+				:items-per-page="pagination_info.pageSize"
+				:total="pagination_info.total"
+				showEdges
+				:default-page="1">
+				<PaginationContent v-slot="{ items }">
+					<PaginationPrevious />
+					<template
+						v-for="(item, index) in items"
+						:key="index">
+						<PaginationItem
+							v-if="item.type === 'page'"
+							:value="item.value"
+							:is-active="item.value === page">
+							{{ item.value }}
+						</PaginationItem>
+						<PaginationEllipsis
+							v-else
+							:key="item.type"
+							:index="index">
+							&#8230;
+						</PaginationEllipsis>
+					</template>
+					<PaginationNext />
+				</PaginationContent>
+			</Pagination>
 		</div>
-
-		<!-- 分页组件 -->
-		<Pagination
-			class="mt-4 flex justify-center"
-			v-slot="{ page }"
-			v-model:page="pagination_info.pageNo"
-			:items-per-page="pagination_info.pageSize"
-			:total="pagination_info.total"
-			showEdges
-			:default-page="1">
-			<PaginationContent v-slot="{ items }">
-				<PaginationPrevious />
-				<template
-					v-for="(item, index) in items"
-					:key="index">
-					<PaginationItem
-						v-if="item.type === 'page'"
-						:value="item.value"
-						:is-active="item.value === page">
-						{{ item.value }}
-					</PaginationItem>
-					<PaginationEllipsis
-						v-else
-						:key="item.type"
-						:index="index">
-						&#8230;
-					</PaginationEllipsis>
-				</template>
-				<PaginationNext />
-			</PaginationContent>
-		</Pagination>
 	</div>
 </template>

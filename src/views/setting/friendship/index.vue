@@ -2,7 +2,7 @@
 import { onMounted, ref, reactive } from "vue";
 import { getFriendshipList as getFriendshipListApi } from "@/api/setting/friendship";
 import type { Friend } from "@/api/setting/friendship/type";
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import { toast } from "vue-sonner";
 import {
 	Pagination,

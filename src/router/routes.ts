@@ -21,7 +21,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			{
 				name: "访客列表",
 				path: "/data/visitor",
-				component: () => import("@/views/data/visitor.vue"),
+				component: () => import("@/views/data/visitor/index.vue"),
 				meta: {
 					showInTabs: true,
 					icon: "IdCard",
@@ -30,7 +30,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			{
 				name: "埋点列表",
 				path: "/data/buried",
-				component: () => import("@/views/data/buried.vue"),
+				component: () => import("@/views/data/buried/index.vue"),
 				meta: {
 					showInTabs: true,
 					icon: "Crosshair",
@@ -48,7 +48,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			{
 				name: "错误日志",
 				path: "/data/log",
-				component: () => import("@/views/data/errorLog.vue"),
+				component: () => import("@/views/data/errorLog/index.vue"),
 				meta: {
 					showInTabs: true,
 					icon: "Cctv",

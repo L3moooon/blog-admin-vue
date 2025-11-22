@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import {
 	Pagination,
 	PaginationContent,
@@ -106,8 +106,7 @@ onMounted(() => {
 				:data="userData"
 				:columns="customColumns"
 				align-center
-				show-overflow-tooltip
-			>
+				show-overflow-tooltip>
 				<template #cell-location="{ row }">
 					<div v-if="row.address">
 						<span v-if="row.address.country == '中国'">
@@ -132,8 +131,7 @@ onMounted(() => {
             'rounded-md',
             'flex',
             'justify-center',
-          ]"
-					>
+          ]">
 						{{ value }}
 					</div>
 				</template>
@@ -145,19 +143,16 @@ onMounted(() => {
 				:items-per-page="pagination_info.pageSize"
 				:total="pagination_info.total"
 				showEdges
-				:default-page="1"
-			>
+				:default-page="1">
 				<PaginationContent v-slot="{ items }">
 					<PaginationPrevious />
 					<template
 						v-for="(item, index) in items"
-						:key="index"
-					>
+						:key="index">
 						<PaginationItem
 							v-if="item.type === 'page'"
 							:value="item.value"
-							:is-active="item.value === page"
-						>
+							:is-active="item.value === page">
 							{{ item.value }}
 						</PaginationItem>
 					</template>

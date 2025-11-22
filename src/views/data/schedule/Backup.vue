@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive, watch } from "vue";
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import { getBackupLog as getBackupLogApi } from "@/api/data/schedule/index";
 import type { BackupLogItem } from "@/api/data/schedule/type";
 import {

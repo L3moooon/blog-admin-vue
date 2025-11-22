@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive, watch } from "vue";
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "vue-sonner";
@@ -97,13 +97,11 @@ onMounted(() => {
 			:data="rebootData"
 			:columns="columns"
 			align-center
-			show-overflow-tooltip
-		>
+			show-overflow-tooltip>
 			<template #cell-status="{ value }">
 				<div
 					class="px-2 rounded-md"
-					:style="{backgroundColor: getColor(value as string),}"
-				>
+					:style="{backgroundColor: getColor(value as string),}">
 					{{ value }}
 				</div>
 			</template>
@@ -122,26 +120,22 @@ onMounted(() => {
 			:items-per-page="pagination_info.pageSize"
 			:total="pagination_info.total"
 			showEdges
-			:default-page="1"
-		>
+			:default-page="1">
 			<PaginationContent v-slot="{ items }">
 				<PaginationPrevious />
 				<template
 					v-for="(item, index) in items"
-					:key="index"
-				>
+					:key="index">
 					<PaginationItem
 						v-if="item.type === 'page'"
 						:value="item.value"
-						:is-active="item.value === page"
-					>
+						:is-active="item.value === page">
 						{{ item.value }}
 					</PaginationItem>
 					<PaginationEllipsis
 						v-else
 						:key="item.type"
-						:index="index"
-					>
+						:index="index">
 						&#8230;
 					</PaginationEllipsis>
 				</template>

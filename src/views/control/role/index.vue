@@ -7,7 +7,7 @@ import {
 } from "@/api/control/role";
 import Permission from "./PermissionSheet.vue";
 import EditRole from "./EditRoleDialog.vue";
-import MyTable from "@/components/table/MyTable.vue";
+import MyTable from "@/components/MyTable.vue";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -121,86 +121,86 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="px-5">
-		<div class="flex gap-2 my-4">
-			<Button
-				v-btn="['role_add']"
-				@click="handleEditRole"
-				variant="outline"
-				class="cursor-pointer">
-				<UserPlus />
-				创建角色
-			</Button>
-			<Button
-				@click=""
-				variant="outline"
-				class="cursor-pointer">
-				<KeyRound />
-				权限表
-			</Button>
-		</div>
-		<MyTable
-			:data="roleList"
-			:columns="customColumns"
-			align-center
-			show-overflow-tooltip>
-			<template #cell-create_time="{ value }">
-				<span v-time="value"></span>
-			</template>
-			<template #cell-update_time="{ value }">
-				<span v-time="value"></span>
-			</template>
-			<template #cell-operate="{ row }">
-				<div class="flex gap-2">
-					<Label>启用</Label>
-					<Switch
-						v-btn="['role_change_status']"
-						class="cursor-pointer"
-						:model-value="row.status"
-						@update:model-value="handleChangeStatus(row)">
-					</Switch>
-					<div
-						v-btn="['role_assign_permission']"
-						class="text-blue-600 hover:text-blue-800 cursor-pointer"
-						@click="handleAssignPermission(row)">
-						分配权限
+		<div class="px-5">
+			<div class="flex gap-2 my-4">
+				<Button
+					v-btn="['role_add']"
+					@click="handleEditRole"
+					variant="outline"
+					class="cursor-pointer">
+					<UserPlus />
+					创建角色
+				</Button>
+				<Button
+					@click=""
+					variant="outline"
+					class="cursor-pointer">
+					<KeyRound />
+					权限表
+				</Button>
+			</div>
+			<MyTable
+				:data="roleList"
+				:columns="customColumns"
+				align-center
+				show-overflow-tooltip>
+				<template #cell-create_time="{ value }">
+					<span v-time="value"></span>
+				</template>
+				<template #cell-update_time="{ value }">
+					<span v-time="value"></span>
+				</template>
+				<template #cell-operate="{ row }">
+					<div class="flex gap-2">
+						<Label>启用</Label>
+						<Switch
+							v-btn="['role_change_status']"
+							class="cursor-pointer"
+							:model-value="row.status"
+							@update:model-value="handleChangeStatus(row)">
+						</Switch>
+						<div
+							v-btn="['role_assign_permission']"
+							class="text-blue-600 hover:text-blue-800 cursor-pointer"
+							@click="handleAssignPermission(row)">
+							分配权限
+						</div>
+						<AlertDialog>
+							<AlertDialogTrigger
+								v-btn="['role_delete']"
+								class="text-red-400 hover:text-red-500 cursor-pointer">
+								删除
+							</AlertDialogTrigger>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>删除角色</AlertDialogTitle>
+									<AlertDialogDescription>
+										删除操作无法撤销，确认删除角色：{{ row.role_name }}?
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel class="cursor-pointer">
+										取消
+									</AlertDialogCancel>
+									<AlertDialogAction
+										class="cursor-pointer"
+										@click="handleConfirmDelete(row.id)">
+										确认
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
 					</div>
-					<AlertDialog>
-						<AlertDialogTrigger
-							v-btn="['role_delete']"
-							class="text-red-400 hover:text-red-500 cursor-pointer">
-							删除
-						</AlertDialogTrigger>
-						<AlertDialogContent>
-							<AlertDialogHeader>
-								<AlertDialogTitle>删除角色</AlertDialogTitle>
-								<AlertDialogDescription>
-									删除操作无法撤销，确认删除角色：{{ row.role_name }}?
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-							<AlertDialogFooter>
-								<AlertDialogCancel class="cursor-pointer">
-									取消
-								</AlertDialogCancel>
-								<AlertDialogAction
-									class="cursor-pointer"
-									@click="handleConfirmDelete(row.id)">
-									确认
-								</AlertDialogAction>
-							</AlertDialogFooter>
-						</AlertDialogContent>
-					</AlertDialog>
-				</div>
-			</template>
-		</MyTable>
-		<Permission
-			v-if="selectRole"
-			v-model="permissionDialogVisible"
-			:data="selectRole"
-			@update:list="getRoleList" />
-		<EditRole
-			v-model="roleDialogVisible"
-			@update:list="getRoleList" />
+				</template>
+			</MyTable>
+			<Permission
+				v-if="selectRole"
+				v-model="permissionDialogVisible"
+				:data="selectRole"
+				@update:list="getRoleList" />
+			<EditRole
+				v-model="roleDialogVisible"
+				@update:list="getRoleList" />
+		</div>
 	</div>
 </template>
