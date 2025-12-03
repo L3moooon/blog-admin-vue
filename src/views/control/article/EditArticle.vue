@@ -246,7 +246,7 @@ onUnmounted(() => {
 							v-model="form.abstract"
 							placeholder="请输入文章简介..." />
 						<Label>标签</Label>
-						<div class="flex gap-4">
+						<div class="flex gap-4 flex-wrap">
 							<div
 								class="flex"
 								v-for="item in tagList">

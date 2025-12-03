@@ -367,14 +367,14 @@ onMounted(() => {
 		</div>
 		<!-- 新增/编辑文章 -->
 		<EditArticle
-			v-model:showArticleDialog="showArticleDialog"
+			v-model="showArticleDialog"
 			:rowInfo="rowInfo"
 			:tagList="tagList"
 			@update:article="getArticleList" />
 		<!-- 新增/编辑标签 -->
 		<EditTag
 			v-if="tagList.length"
-			v-model:showTagDialog="showTagDialog"
+			v-model="showTagDialog"
 			:tagList="tagList"
 			@update:tagList="getTagList" />
 	</div>

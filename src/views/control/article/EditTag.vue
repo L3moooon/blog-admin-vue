@@ -28,7 +28,7 @@ const props = withDefaults(
 const emits = defineEmits(["update:tagList"]);
 const tagInput = ref<string>("");
 const tagColor = ref<string>("#222222");
-const showTagDialog = defineModel<boolean>("showTagDialog");
+const showTagDialog = defineModel<boolean>();
 const addTag = async () => {
 	console.log(tagInput.value);
 	const tagValue = tagInput.value?.trim();
@@ -74,12 +74,10 @@ onMounted(() => {
 				type="email"
 				v-model="tagInput"
 				@keydown.enter="addTag"
-				placeholder="添加标签"
-			/>
+				placeholder="添加标签" />
 			<div
 				class="flex center items-center"
-				@click="handlePickColor"
-			>
+				@click="handlePickColor">
 				<div :class="[`bg-[${tagColor}]`, 'w-8', 'h-8']"></div>
 				<!-- <input
 					type="color"
@@ -95,13 +93,11 @@ onMounted(() => {
 				<div
 					v-for="item in tagList"
 					class="h-8 border rounded-sm px-2 flex items-center text-sm"
-					:class="`bg-[${item.color}]`"
-				>
+					:class="`bg-[${item.color}]`">
 					{{ item.tag_name }}
 					<X
 						class="w-4 text-red-500 ml-2 cursor-pointer"
-						@click="delTag(item.id)"
-					></X>
+						@click="delTag(item.id)"></X>
 				</div>
 			</div>
 		</DialogContent>
