@@ -10,7 +10,7 @@ declare module "vue-router" {
 export const asyncRoutes: RouteRecordRaw[] = [
 	{
 		name: "网站数据",
-		path: "/data",
+		path: "/data-center",
 		redirect: "/data/visitor",
 		component: () => import("@/layout/basic/index.vue"),
 		meta: {
@@ -20,7 +20,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 		children: [
 			{
 				name: "访客列表",
-				path: "/data/visitor",
+				path: "/data-center/visitor-list",
 				component: () => import("@/views/data/visitor/index.vue"),
 				meta: {
 					showInTabs: true,
@@ -29,7 +29,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			},
 			{
 				name: "埋点列表",
-				path: "/data/buried",
+				path: "/data-center/track-list",
 				component: () => import("@/views/data/buried/index.vue"),
 				meta: {
 					showInTabs: true,
@@ -38,7 +38,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			},
 			{
 				name: "定时任务",
-				path: "/data/schedule",
+				path: "/data-center/schedule-task",
 				component: () => import("@/views/data/schedule/index.vue"),
 				meta: {
 					showInTabs: true,
@@ -47,7 +47,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			},
 			{
 				name: "错误日志",
-				path: "/data/log",
+				path: "/data-center/error-log",
 				component: () => import("@/views/data/errorLog/index.vue"),
 				meta: {
 					showInTabs: true,
@@ -67,7 +67,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 		children: [
 			{
 				name: "用户管理",
-				path: "/control/user",
+				path: "/control/user-list",
 				component: () => import("@/views/control/user/index.vue"),
 				meta: {
 					showInTabs: true,
@@ -76,7 +76,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			},
 			{
 				name: "角色管理",
-				path: "/control/role",
+				path: "/control/role-list",
 				component: () => import("@/views/control/role/index.vue"),
 				meta: {
 					showInTabs: true,
@@ -85,7 +85,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			},
 			{
 				name: "文章管理",
-				path: "/control/article",
+				path: "/content/article-list",
 				component: () => import("@/views/control/article/index.vue"),
 				meta: {
 					showInTabs: true,
@@ -94,7 +94,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 			},
 			{
 				name: "评论管理",
-				path: "/control/comment",
+				path: "/content/comment-list",
 				component: () => import("@/views/control/comment/index.vue"),
 				meta: {
 					showInTabs: true,
